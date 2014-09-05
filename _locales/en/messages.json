@@ -1,0 +1,86 @@
+{
+  "twik_description": {
+    "message": "Password manager and generator",
+    "description": ""
+  },
+  
+  "default": {
+    "message": "Default",
+    "description": ""
+  },
+  
+  "alphanumeric_and_special_chars": {
+    "message": "Alphanumeric and special chars",
+    "description": ""
+  },
+  
+  "alphanumeric": {
+    "message": "Alphanumeric",
+    "description": ""
+  },
+  
+  "numeric": {
+    "message": "Numeric",
+    "description": ""
+  },
+  
+  "profile": {
+    "message": "Profile",
+    "description": ""
+  },
+  
+  "name": {
+    "message": "Name",
+    "description": ""
+  },
+  
+  "private_key": {
+    "message": "Private key",
+    "description": ""
+  },
+  
+  "color": {
+    "message": "Color",
+    "description": ""
+  },
+  
+  "password_length": {
+    "message": "Password length",
+    "description": ""
+  },
+  
+  "password_type": {
+    "message": "Password type",
+    "description": ""
+  },
+  
+  "add_profile": {
+    "message": "Add profile",
+    "description": ""
+  },
+  
+  "remove_profile": {
+    "message": "Remove profile",
+    "description": ""
+  },
+  
+  "save_changes": {
+    "message": "Save changes",
+    "description" : ""
+  },
+  
+  "new_profile": {
+    "message": "New profile",
+    "description": ""
+  },
+  
+  "website_tag": {
+    "message": "Website tag",
+    "description": ""
+  },
+  
+  "options": {
+    "message": "Options",
+    "description": ""
+  }
+}

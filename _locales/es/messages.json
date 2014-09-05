@@ -1,0 +1,86 @@
+{
+  "twik_description": {
+    "message": "Gestor y generador de contraseñas",
+    "description": ""
+  },
+  
+  "default": {
+    "message": "Predeterminado",
+    "description": ""
+  },
+  
+  "alphanumeric_and_special_chars": {
+    "message": "Alfanumérica y caracteres especiales",
+    "description": ""
+  },
+  
+  "alphanumeric": {
+    "message": "Alfanumérica",
+    "description": ""
+  },
+  
+  "numeric": {
+    "message": "Numérica",
+    "description": ""
+  },
+  
+  "profile": {
+    "message": "Perfil",
+    "description": ""
+  },
+  
+  "name": {
+    "message": "Nombre",
+    "description": ""
+  },
+  
+  "private_key": {
+    "message": "Clave privada",
+    "description": ""
+  },
+  
+  "color": {
+    "message": "Color",
+    "description": ""
+  },
+  
+  "password_length": {
+    "message": "Longitud de contraseña",
+    "description": ""
+  },
+  
+  "password_type": {
+    "message": "Tipo de contraseña",
+    "description": ""
+  },
+  
+  "add_profile": {
+    "message": "Añadir perfil",
+    "description": ""
+  },
+  
+  "remove_profile": {
+    "message": "Borrar perfil",
+    "description": ""
+  },
+  
+  "save_changes": {
+    "message": "Guardar cambios",
+    "description" : ""
+  },
+  
+  "new_profile": {
+    "message": "Nuevo perfil",
+    "description": ""
+  },
+  
+  "website_tag": {
+    "message": "Etiqueta del sitio",
+    "description": ""
+  },
+  
+  "options": {
+    "message": "Opciones",
+    "description": ""
+  }
+}
