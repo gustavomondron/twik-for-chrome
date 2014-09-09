@@ -64,11 +64,6 @@
     "description": ""
   },
   
-  "save_changes": {
-    "message": "Guardar cambios",
-    "description" : ""
-  },
-  
   "new_profile": {
     "message": "Nuevo perfil",
     "description": ""
@@ -81,6 +76,16 @@
   
   "options": {
     "message": "Opciones",
+    "description": ""
+  },
+  
+  "synchronize": {
+    "message": "Sincronizar las claves privadas entre las instalaciones de Google Chrome.",
+    "description": ""
+  },
+
+  "stored_in_google_account": {
+    "message": "Tus claves privadas serán almacenadas en tu cuenta de Google y sólo podrán ser leídas por ti.",
     "description": ""
   }
 }

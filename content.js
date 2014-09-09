@@ -148,7 +148,6 @@ PasswordActivator.prototype.updatePassword = function() {
       settings.password_length,
       settings.password_type
     );
-    console.log(sitePassword);
     $(this.passwordInput).val(sitePassword);
     this.currentPassword = sitePassword;
   } else {

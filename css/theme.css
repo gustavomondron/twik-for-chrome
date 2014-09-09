@@ -60,6 +60,17 @@ div.options-item label, div.popup-item label {
   width: 200px;
 }
 
+div.options-item-checkbox {
+  width: 30px;
+  float: left;
+  line-height: 2em;
+  clear: both;
+}
+
+label.options-item-small {
+  line-height: 2em;
+}
+
 #popup-container {
   width: 450px;
   font-family: "Open Sans",Arial,"Lucida Grande",sans-serif;

@@ -45,7 +45,6 @@ function getSite(url) {
       return split_at_first_dot.exec(tldjs.getDomain(address))[1]; // c
     }
   } catch (e) {
-    console.log(e);
     return "chrome";                                               // d
   }
 }
@@ -65,7 +64,8 @@ function populatePasswordType() {
 function populateProfiles() {
   $('#profile').find('option').remove();
   bgPage = chrome.extension.getBackgroundPage();
-  for(i = 0; i < bgPage.profiles.length; i++) {
-    $('#profile').append(new Option(bgPage.profiles[i].name, i));
+  var profileCount = bgPage.profileList.count();
+  for(i = 0; i < profileCount; i++) {
+    $('#profile').append(new Option(bgPage.profileList.getProfile(i).name, i));
   }
 }

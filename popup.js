@@ -21,18 +21,19 @@ var url;
 
 bgPage = chrome.extension.getBackgroundPage();
 
-chrome.tabs.getSelected(null, function(tab) {
-  url = tab.url;
-  $('#profile').val(bgPage.getSelectedProfile(url));
-  updateValues();
-  setListeners();
-});
-
 window.onload = function() {
   localizePage();
   populateProfiles();
   populatePasswordLength();
   populatePasswordType();
+  
+  // Select the profile and fill the settings
+  chrome.tabs.getSelected(null, function(tab) {
+    url = tab.url;
+    $('#profile').val(bgPage.getSelectedProfile(url));
+    updateValues();
+    setListeners();
+  });
 }
 
 function updateValues() {

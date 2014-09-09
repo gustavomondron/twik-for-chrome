@@ -17,40 +17,45 @@
  * along with Twik.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var profiles;
-var selectedProfile = {};
+var profileList;
 var messagesPort;
+var syncPrivateKeys = false;
 
-updateProfiles();
+// Get profile list
+profileList = new ProfileList();
+profileList.getFromStorage(function() {
+  if (profileList.count() == 0) {
+    profileList.createDefaultProfile(null);
+  }
+  
+  // Determine whether private keys are synced
+  getSyncPrivateKeys(function(sync) {
+    syncPrivateKeys = sync;
+  });
+});
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
+  console.log(changes);
   if (namespace == "sync") {
     for (key in changes) {
-      if (key == "profiles") {
-        updateProfiles();
+      if (key == "profiles" || key == "site_profiles") {
+        profileList.getFromStorage(null);
+      } else if (key == "sync_private_keys") {
+        syncPrivateKeys = changes[key].newValue;
       }
     }
   }
 });
 
-function updateProfiles() {
-  getProfiles(function(items) {
-    profiles = items;
+function selectProfile(url, index) {
+  profileList.setProfileForSite(getSite(url), index, function() {
+    // Update settings in content script
+    updateContentScript(url);
   });
 }
 
-function selectProfile(url, index) {
-  selectedProfile[getSite(url)] = index;
-  // Update settings in content script
-  updateContentScript(url);
-}
-
 function getSelectedProfile(url) {
-  site = getSite(url);
-  if (selectedProfile[site] == null) {
-    selectedProfile[site] = 0;
-  }
-  return selectedProfile[site];
+  return profileList.getProfileForSite(getSite(url));
 }
 
 function updateContentScript(url) {
@@ -70,7 +75,7 @@ function updateContentScript(url) {
 
 function getSiteSettings(url) {
   site = getSite(url);
-  var profile = profiles[getSelectedProfile(url)];
+  var profile = profileList.getProfile(getSelectedProfile(url));
   var data = {
     site: site,
     color: profile.color,
@@ -97,31 +102,37 @@ function updateSiteSettings(url, settings, updateContent) {
     settings = getSiteSettings(url);
   }
   
-  site = getSite(url);
+  var site = getSite(url);
+  var profileIndex = getSelectedProfile(url);
+  var profile = profileList.getProfile(profileIndex);
   
   // Update enabled inputs if specified
   var enabled_inputs;
-  if (settings['enabled_inputs'] != null) {
-    enabled_inputs = settings['enabled_inputs']
+  if (settings.hasOwnProperty('enabled_inputs')) {
+    enabled_inputs = settings['enabled_inputs'];
+  } else if (profile.sites[site].enabled_inputs != null) {
+    enabled_inputs = profile.sites[site].enabled_inputs;
   } else {
-    enabled_inputs = profiles[selectedProfile[site]].sites[site].enabled_inputs;
+    enabled_inputs = [];
   }
-  profiles[selectedProfile[site]].sites[site] = {
+  
+  profile.sites[site] = {
     tag: settings.tag,
     enabled_inputs: enabled_inputs
   };
-  profiles[selectedProfile[site]].tags[settings.tag] = {
+  
+  profile.tags[settings.tag] = {
     password_length: settings.password_length,
     password_type: settings.password_type
   }
-  chrome.storage.sync.set({
-    profiles: profiles
-  }, null);
   
-  // Update content script if necessary
-  if (updateContent) {
-    updateContentScript(url);
-  }
+  profileList.setProfile(profileIndex, profile);
+  profileList.setToStorage(syncPrivateKeys, function() {
+    // Update content script if necessary
+    if (updateContent) {
+      updateContentScript(url);
+    }
+  });
 }
 
 // Listen for requests of content script

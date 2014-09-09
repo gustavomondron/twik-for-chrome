@@ -64,11 +64,6 @@
     "description": ""
   },
   
-  "save_changes": {
-    "message": "Save changes",
-    "description" : ""
-  },
-  
   "new_profile": {
     "message": "New profile",
     "description": ""
@@ -81,6 +76,16 @@
   
   "options": {
     "message": "Options",
+    "description": ""
+  },
+  
+  "synchronize": {
+    "message": "Synchronize your private keys among your Chrome installations.",
+    "description": ""
+  },
+
+  "stored_in_google_account": {
+    "message": "Private keys will be stored in your Google account and can only be read by you.",
     "description": ""
   }
 }

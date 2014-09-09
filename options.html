@@ -23,10 +23,11 @@
   <head>
     <title i18n="options"></title>
     <link rel="stylesheet" type="text/css" href="css/theme.css"/>
+    <script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="constants.js"></script>
     <script type="text/javascript" src="util.js"></script>
-    <script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="lib/localization.js"></script>
+    <script type="text/javascript" src="lib/ColorPalette.js"></script>
     <script type="text/javascript" src="options.js"></script>
   </head>
   <body>
@@ -35,6 +36,8 @@
         <img src="images/icon-64.png" alt="Twik" width="64px" height="64px"/>
         <h1>twik</h1>
       </header>
+      
+      <h2>Profile options</h2>
       
       <div class="options-item">
         <label i18n="profile"></label>
@@ -53,7 +56,7 @@
         <label i18n="private_key"></label>
         <input type="text" name="private_key" id="private_key" size="42" maxlength="40"/>
       </div>
-
+      
       <div class="options-item">
         <label i18n="password_length"></label>
         <select name="password_length" id="password_length">
@@ -70,10 +73,14 @@
         <label i18n="color"></label>
       </div>
       
-      <br/>
-      <div>
-        <button id="button_save_changes" i18n="save_changes"/>
-      </div>
+      <h2>Synchronization options</h2>
+        <div class="options-item-checkbox">
+          <input type="checkbox" name="sync_private_keys" id="sync_private_keys"/>
+        </div>
+        <label i18n="synchronize" class="options-item-small"></label><br/>
+        <div class="options-item-checkbox">&nbsp;</div>
+        <label i18n="stored_in_google_account"></label>
+        Private keys will be stored in your Google account and can only be read by you.<br/>
     </div>
   </body>
 </html>
