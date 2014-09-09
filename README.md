@@ -8,9 +8,7 @@ Keeping up with todays password requirements isn’t easy. On the one hand, you 
 
 Twik works in a different way. You have to provide a private key that will be stored in the computer, and think of a strong master key that will not be stored anywhere. Any time you need to generate a password for a website, you must type your master key. The combination of the master key, the private key, and the website will be used to generate a unique, strong password. Since passwords are generated each time, even if one of them is compromised the rest would be safe. Twik integrates with the web browser: you type your master key in the website form and Twik will replace it with the website password automatically.
 
-Twik is compatible with Password Hasher Plus, a Chrome extension by Eric Woodruff that follows the same principles for generating strong passwords. You can use the same private and master keys to generate the same passwords on your desktop browser.
-
-Twik is also available as an Android application.
+Twik is also available as an [Android application](https://play.google.com/store/apps/details?id=com.reddyetwo.hashmypass.app).
 
 Twik features include:
 - Several profiles, each with its own private key and settings.
