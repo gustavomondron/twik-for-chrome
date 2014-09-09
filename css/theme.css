@@ -76,7 +76,7 @@ label.options-item-small {
   font-family: "Open Sans",Arial,"Lucida Grande",sans-serif;
 }
 
-#popup-container a {
+a {
   text-decoration: none;
   color: #4d7e00;
 }

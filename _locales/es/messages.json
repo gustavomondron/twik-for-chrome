@@ -87,5 +87,30 @@
   "stored_in_google_account": {
     "message": "Tus claves privadas serán almacenadas en tu cuenta de Google y sólo podrán ser leídas por ti.",
     "description": ""
+  },
+  
+  "about": {
+    "message": "Acerca de Twik",
+    "description": ""
+  },
+  
+  "about_content": {
+    "message" : "<b>Twik</b> es una aplicación que hace más fácil generar contraseñas seguras y diferentes para cada sitio web.<br/><br/>Está basado en el mecanismo de generación de contraseñas de Password Hasher por Steve Cooper y Password Hasher Plus por Eric Woodruff.",
+    "description": ""
+  },
+  
+  "license": {
+    "message": "Licencia",
+    "description": ""
+  },
+  
+  "external_code": {
+    "message": "Código de terceras partes",
+    "description" : ""
+  },
+  
+  "external_code_content": {
+    "message" : "Este proyecto usa código de terceras partes, licenciadas bajo sus propios términos:",
+    "description": ""
   }
 }
