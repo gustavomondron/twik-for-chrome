@@ -57,7 +57,7 @@ div.options-item, div.popup-item {
 div.options-item label, div.popup-item label {
   display: block;
   float: left;
-  width: 200px;
+  width: 225px;
 }
 
 div.options-item-checkbox {
@@ -72,7 +72,7 @@ label.options-item-small {
 }
 
 #popup-container {
-  width: 450px;
+  width: 500px;
   font-family: "Open Sans",Arial,"Lucida Grande",sans-serif;
 }
 
