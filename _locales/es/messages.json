@@ -1,4 +1,9 @@
 {
+  "twik_name": {
+    "message": "Twik Generador de contraseñas",
+    "description": ""
+  },
+
   "twik_description": {
     "message": "Gestor y generador de contraseñas",
     "description": ""
