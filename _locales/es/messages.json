@@ -84,6 +84,16 @@
     "description": ""
   },
   
+  "profile_options": {
+    "message": "Opciones de perfil",
+    "description": ""
+  },
+  
+  "synchronization_options": {
+    "message": "Opciones de sincronización",
+    "description": ""
+  },
+    
   "synchronize": {
     "message": "Sincronizar las claves privadas entre las instalaciones de Google Chrome.",
     "description": ""

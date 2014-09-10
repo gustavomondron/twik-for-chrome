@@ -84,6 +84,16 @@
     "description": ""
   },
   
+  "profile_options": {
+    "message": "Profile options",
+    "description": ""
+  },
+  
+  "synchronization_options": {
+    "message": "Synchronization options",
+    "description": ""
+  },
+  
   "synchronize": {
     "message": "Synchronize your private keys among your Chrome installations.",
     "description": ""
