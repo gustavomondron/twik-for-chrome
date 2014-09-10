@@ -93,14 +93,20 @@ a {
 }
 
 .twik-checkbox {
-  display: inline;
+  -webkit-appearance: checkbox;
+  width: auto !important;
+  height: auto !important;
+  vertical-align: middle;
 }
 
-.twik-tip {
+.twik-tip label {
   font-family: 'Chivo', 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 12px;
+  color: #006400;
+  vertical-align: middle;
   font-weight: 900;
+  font-size: 14px;
 }
+
 
 #profile-color-marker {
   display: inline;
