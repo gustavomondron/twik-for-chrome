@@ -186,6 +186,29 @@ function updatePasswordInputs() {
   }
 }
 
+function addNewNodeListener() {
+  document.addEventListener('DOMNodeInserted', activateElement, false);
+}
+
+function removeNewNodeListener() {
+  document.addEventListener('DOMNodeInserted', activateElement, false);
+}
+
+function activateElement(event) {
+  // We're going to add a new DOM element (qtip) so we should remove the listener first
+  removeNewNodeListener();
+  
+  // Create the new activator in the case that it is a password input
+  $('input[type=password]', event.srcElement).each(function() {
+    activator = new PasswordActivator($(this));
+    passwordActivators[passwordActivators.length] = activator;
+    activator.init();
+  });
+  
+  // Enable the new DOM element listener
+  addNewNodeListener();
+}
+
 // SCRIPT START
 
 // Ask for site settings
@@ -197,6 +220,9 @@ chrome.runtime.sendMessage(
   function(response) {
     settings = response.settings;
     activatePasswordInputs();
+    
+    // Listen for new password inputs added to the document
+    addNewNodeListener();
   }
 );
 
