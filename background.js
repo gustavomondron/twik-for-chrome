@@ -35,7 +35,6 @@ profileList.getFromStorage(function() {
 });
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
-  console.log(changes);
   if (namespace == "sync") {
     for (key in changes) {
       if (key == "profiles" || key == "site_profiles") {
@@ -110,7 +109,7 @@ function updateSiteSettings(url, settings, updateContent) {
   var enabled_inputs;
   if (settings.hasOwnProperty('enabled_inputs')) {
     enabled_inputs = settings['enabled_inputs'];
-  } else if (profile.sites[site].enabled_inputs != null) {
+  } else if (profile.sites[site] != null && profile.sites[site].enabled_inputs != null) {
     enabled_inputs = profile.sites[site].enabled_inputs;
   } else {
     enabled_inputs = [];
