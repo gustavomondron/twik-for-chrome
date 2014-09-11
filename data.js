@@ -26,7 +26,6 @@ ProfileList.prototype.getFromStorage = function(callback) {
   var ref = this;
   chrome.storage.sync.get(null,
     function(items) {
-      console.log(items);
       var siteProfiles = items.site_profiles;
       var syncKeys = items.sync_private_keys;
       var profiles = items.profiles;
