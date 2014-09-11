@@ -20,9 +20,8 @@
 var bgPage = chrome.extension.getBackgroundPage();
 var sync_private_keys = false;
 var colorPalette = new ColorPalette('color-palette', PROFILE_COLORS, 0, function(value) {
-    profile = bgPage.profileList.getProfile($('#profile').val());
-    profile.color = value;
-    bgPage.profileList.setProfile($('#profile').val(), profile);
+    bgPage.profileList.getProfile($('#profile').val()).color = value;
+    saveChanges(false, $('#profile').val());
   });
   
 window.onload = function() {
@@ -43,7 +42,8 @@ window.onload = function() {
   });
   
   $('#button_remove_profile').click(function() {
-    removeProfile($('#profile').val());
+    index = $('#profile').val();
+    removeProfile(index);
     var newIndex = index - 1 >= 0 ? index - 1 : 0;
     saveChanges(true, newIndex);
   });
@@ -53,9 +53,7 @@ window.onload = function() {
   })
   
   $('#name').change(function() {
-    profile = bgPage.profileList.getProfile($('#profile').val());
-    profile.name = $('#name').val();
-    bgPage.profileList.setProfile($('#profile').val(), profile);
+    bgPage.profileList.getProfile($('#profile').val()).name = $('#name').val();
     saveChanges(true, $('#profile').val());
   });
   
@@ -64,7 +62,6 @@ window.onload = function() {
     profile.private_key = $('#private_key').val();
     profile.password_length = $('#password_length').val();
     profile.password_type = $('#password_type').val();
-    bgPage.profileList.setProfile($('#profile').val(), profile);
     saveChanges(false, 0);
   });
 }
@@ -114,7 +111,7 @@ function addProfile() {
       sites: {}
     });
     
-    populateProfileList(profileCount);
+    saveChanges(true, profileCount);
 }
 
 function removeProfile(index) {

@@ -18,7 +18,7 @@
  */
 
 function ProfileList() {
-  this.list = [];
+  this.list = {};
   this.siteProfiles = {};
 }
 
@@ -29,26 +29,30 @@ ProfileList.prototype.getFromStorage = function(callback) {
       var siteProfiles = items.site_profiles;
       var syncKeys = items.sync_private_keys;
       var profiles = items.profiles;
-      if (!syncKeys && profiles != null) {
-        // Get keys from local storage
-        chrome.storage.local.get('private_keys', function(localItems)  {
-          if (localItems.private_keys != null) {
-            for (i = 0; i < profiles.length; i++) {
-              profiles[i].private_key = localItems.private_keys[i];
-            }
-          }
-          ref.list = jQuery.extend({}, profiles);
-        });
-      } else {
-        ref.list = jQuery.extend({}, profiles);
-      }
-      
+
       if (siteProfiles != null) {
         ref.siteProfiles = siteProfiles;
       }
       
-      if (callback != null) {
-        callback();
+      if (!syncKeys && profiles != null) {
+        // Get keys from local storage
+        chrome.storage.local.get('private_keys', function(localItems)  {
+          if (localItems.private_keys != null) {
+            profileCount = Object.keys(profiles).length;
+            for (i = 0; i < profileCount; i++) {
+              profiles[i].private_key = localItems.private_keys[i];
+            }
+          }
+          ref.list = jQuery.extend({}, profiles);
+          if (callback != null) {
+            callback();
+          }
+        });
+      } else {
+        ref.list = jQuery.extend({}, profiles);
+        if (callback != null) {
+          callback();
+        }
       }
     }
   );
@@ -68,7 +72,7 @@ ProfileList.prototype.setProfile = function(index, profile) {
 
 ProfileList.prototype.removeProfile = function(index) {
   if (index < this.count()) {
-    this.list.splice(index, 1);
+    delete this.list[index];
   }
 }
 
@@ -82,14 +86,14 @@ ProfileList.prototype.getPrivateKeys = function() {
 
 ProfileList.prototype.setToStorage = function(syncPrivateKeys, callback) {
   var ref = this;
-  var profilesToStorage = null;
-  if (!syncPrivateKeys) {
-    profilesToStorage = jQuery.extend({}, this.list);
-    for (i = 0; i < profilesToStorage.length; i++) {
+  var profilesToStorage;
+  if (syncPrivateKeys) {
+    profilesToStorage = this.list;
+  } else {
+    profilesToStorage = JSON.parse(JSON.stringify(this.list));
+    for (var i = 0; i < this.count(); i++) {
       profilesToStorage[i].private_key = '';
     }
-  } else {
-    profilesToStorage = this.list;
   }
   
   chrome.storage.sync.set({
