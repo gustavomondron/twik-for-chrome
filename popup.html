@@ -33,28 +33,43 @@
         <img src="images/icon-64.png" width="32" height="32" alt="twik"/>
         <h2>twik</h2>
       </header>
-      <div class="popup-item">
-        <label i18n="profile"></label>
-        <select id="profile" name="profile">
-        </select>
-        <div id="profile-color-marker">&nbsp;</div>
-      </div>
-      <div class="popup-item">
-        <label i18n="website_tag"></label>
-        <input type="text" name="tag" id="tag" size="20" maxlength="25"/>
-      </div>
       
-      <div class="popup-item">
-        <label i18n="password_length"></label>
-        <select name="password_length" id="password_length">
-        </select>
-      </div>
-      
-      <div class="popup-item">
-        <label i18n="password_type"></label>
-        <select name="password_type" id="password_type">
-        </select>
-      </div>
+      <div class="table">
+        <div class="row">
+          <div class="cell">
+            <label i18n="profile"></label>
+          </div>
+          <div class="cell-right">
+            <select id="profile" name="profile">
+            </select>
+            <div id="profile-color-marker">&nbsp;</div>
+          </div>
+        </div> <!-- row -->
+        <div class="row">
+          <div class="cell">
+            <label i18n="website_tag"></label>
+          </div>
+          <div class="cell-right">
+            <input type="text" name="tag" id="tag" size="20" maxlength="25"/>
+          </div>
+        </div> <!-- row -->
+        <div class="row">
+          <div class="cell">
+            <label i18n="password_length"></label>
+          </div>
+          <div class="cell-right">
+            <select name="password_length" id="password_length"></select>
+          </div>
+        </div> <!-- row -->
+        <div class="row">
+          <div class="cell">
+            <label i18n="password_type"></label>
+          </div>
+          <div class="cell-right">
+            <select name="password_type" id="password_type"></select>
+          </div>
+        </div> <!-- row -->
+      </div> <!-- table -->
       <br/>
       <a id="link-options" href="#" i18n="options"></a>
     </div>
