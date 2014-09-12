@@ -17,14 +17,18 @@
  * along with Twik.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var bgPage = chrome.extension.getBackgroundPage();
+var bgPage;
 var colorPalette = new ColorPalette('color-palette', PROFILE_COLORS, 0, function(value) {
     bgPage.profileList.getProfile($('#profile').val()).color = value;
     saveChanges(false, $('#profile').val());
   });
-  
+
 window.onload = function() {
   localizePage();
+  init();
+}
+
+function setupUI() {
   colorPalette.init();
   setSyncPrivateKeys();
   populatePasswordLength();
@@ -65,6 +69,17 @@ window.onload = function() {
   });
 }
 
+function init() {
+  bgPage = chrome.extension.getBackgroundPage();
+  if (bgPage == null || bgPage.document.readyState != 'complete') {
+    // Try again
+    setTimeout(function() {
+      init();
+    }, 100);
+  } else {
+    bgPage.setProfilesLoadedCallback(setupUI);
+  }
+}
 
 function selectProfile(index) {
   var profile = bgPage.profileList.getProfile(index);
@@ -118,8 +133,8 @@ function removeProfile(index) {
 }
 
 function saveChanges(updateList, index) {
-  syncPrivateKeys = $('#sync_private_keys').prop('checked');
-  bgPage.profileList.setToStorage(syncPrivateKeys, function() {
+  bgPage.profileList.syncPrivateKeys = $('#sync_private_keys').prop('checked');
+  bgPage.profileList.setToStorage(function() {
     if (updateList) {
       populateProfileList(index);
     }

@@ -18,20 +18,25 @@
  */
 
 var profileList;
-var syncPrivateKeys = false;
+var profilesLoaded = false;
+var profilesLoadedCallback;
 
 // Get profile list
 profileList = new ProfileList();
 profileList.getFromStorage(function() {
   if (profileList.count() == 0) {
-    profileList.createDefaultProfile(null);
+    profileList.createDefaultProfile(onProfilesLoaded);
+  } else {
+    onProfilesLoaded();
   }
-  
-  // Determine whether private keys are synced
-  getSyncPrivateKeys(function(sync) {
-    syncPrivateKeys = sync;
-  });
 });
+
+function onProfilesLoaded() {
+  profilesLoaded = true;
+  if (profilesLoadedCallback != null) {
+    profilesLoadedCallback();
+  };
+}
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
   if (namespace == "sync") {
@@ -39,11 +44,19 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
       if (key == "profiles" || key == "site_profiles") {
         profileList.getFromStorage(null);
       } else if (key == "sync_private_keys") {
-        syncPrivateKeys = changes[key].newValue;
+        profileList.syncPrivateKeys = changes[key].newValue;
       }
     }
   }
 });
+
+function setProfilesLoadedCallback(callback) {
+  if (profilesLoaded) {
+    callback();
+  } else {
+    profilesLoadedCallback = callback;
+  }
+}
 
 function selectProfile(url, index) {
   profileList.setProfileForSite(getSite(url), index, function() {
@@ -125,7 +138,7 @@ function updateSiteSettings(url, settings, updateContent) {
   }
   
   profileList.setProfile(profileIndex, profile);
-  profileList.setToStorage(syncPrivateKeys, function() {
+  profileList.setToStorage(function() {
     // Update content script if necessary
     if (updateContent) {
       updateContentScript(url);

@@ -20,6 +20,7 @@
 function ProfileList() {
   this.list = {};
   this.siteProfiles = {};
+  this.syncPrivateKeys;
 }
 
 ProfileList.prototype.getFromStorage = function(callback) {
@@ -27,14 +28,14 @@ ProfileList.prototype.getFromStorage = function(callback) {
   chrome.storage.sync.get(null,
     function(items) {
       var siteProfiles = items.site_profiles;
-      var syncKeys = items.sync_private_keys;
+      ref.syncPrivateKeys = items.sync_private_keys;
       var profiles = items.profiles;
 
       if (siteProfiles != null) {
         ref.siteProfiles = siteProfiles;
       }
       
-      if (!syncKeys && profiles != null) {
+      if (!ref.syncPrivateKeys && profiles != null) {
         // Get keys from local storage
         chrome.storage.local.get('private_keys', function(localItems)  {
           if (localItems.private_keys != null) {
@@ -84,10 +85,10 @@ ProfileList.prototype.getPrivateKeys = function() {
   return privateKeys;
 }
 
-ProfileList.prototype.setToStorage = function(syncPrivateKeys, callback) {
+ProfileList.prototype.setToStorage = function(callback) {
   var ref = this;
   var profilesToStorage;
-  if (syncPrivateKeys) {
+  if (this.syncPrivateKeys) {
     profilesToStorage = this.list;
   } else {
     profilesToStorage = JSON.parse(JSON.stringify(this.list));
@@ -95,10 +96,10 @@ ProfileList.prototype.setToStorage = function(syncPrivateKeys, callback) {
       profilesToStorage[i].private_key = '';
     }
   }
-  
+
   chrome.storage.sync.set({
     profiles: profilesToStorage,
-    sync_private_keys: syncPrivateKeys,
+    sync_private_keys: ref.syncPrivateKeys,
     site_profiles: ref.siteProfiles
   }, function() {
     chrome.storage.local.set({
@@ -123,6 +124,7 @@ ProfileList.prototype.createDefaultProfile = function(callback) {
   };
   
   this.list[0] = profile;
+  this.syncPrivateKeys = false;
   var ref = this;
   
   chrome.storage.sync.set({
@@ -165,12 +167,9 @@ ProfileList.prototype.getProfileForSite = function(site) {
   return profileIndex;
 }
 
+ProfileList.prototype.getSyncPrivateKeys = function() {
+  return this.syncPrivateKeys;
+}
+
 // ---------------- END OF ProfileList ----------------- //
 
-function getSyncPrivateKeys(callback) {
-  chrome.storage.sync.get('sync_private_keys', function(items) {
-    if (callback != null) {
-      callback(items.sync_private_items);
-    }
-  });
-}
