@@ -18,7 +18,6 @@
  */
 
 var bgPage = chrome.extension.getBackgroundPage();
-var sync_private_keys = false;
 var colorPalette = new ColorPalette('color-palette', PROFILE_COLORS, 0, function(value) {
     bgPage.profileList.getProfile($('#profile').val()).color = value;
     saveChanges(false, $('#profile').val());
@@ -27,10 +26,10 @@ var colorPalette = new ColorPalette('color-palette', PROFILE_COLORS, 0, function
 window.onload = function() {
   localizePage();
   colorPalette.init();
+  setSyncPrivateKeys();
   populatePasswordLength();
   populatePasswordType();
   populateProfileList(0);
-  setSyncPrivateKeys();
   
   $('#profile').change(function() {
     selectProfile($('#profile').val());
