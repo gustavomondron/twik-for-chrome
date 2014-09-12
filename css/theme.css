@@ -98,6 +98,10 @@ a {
   font-size: 14px;
 }
 
+.twik-enabled {
+  color:white !important;
+}
+
 #profile-color-marker {
   display: inline;
   vertical-align: middle;
