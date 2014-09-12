@@ -110,7 +110,7 @@
   },
   
   "about_content": {
-    "message": "<b>Twik</b> is an application that makes it easier to generate secure and different passwords for each website.<br/><br/>Twik is based on the password generation mechanism of Password Hasher by Steve Cooper and Password Hasher Plus by Eric Woodruff.",
+    "message": "<strong>Twik</strong> is an application that makes it easier to generate secure and different passwords for each website.<br/><br/><strong>Twik</strong> is based on the password generation mechanism of Password Hasher by Steve Cooper and Password Hasher Plus by Eric Woodruff.",
     "description": ""
   },
   
