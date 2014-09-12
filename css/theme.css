@@ -96,7 +96,7 @@ a {
 }
 
 .twik-checkbox {
-  -webkit-appearance: checkbox;
+  -webkit-appearance: checkbox !important;
   width: auto !important;
   height: auto !important;
   vertical-align: middle;
