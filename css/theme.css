@@ -107,7 +107,6 @@ a {
 
 .table {
   display: table;
-  width: 100%;
 }
 
 .row {
@@ -117,5 +116,5 @@ a {
 .cell {
   display: table-cell;
   border: none;
-  padding: 5px 5px 5px 0px;
+  padding: 7px 10px 5px 0px;
 }
