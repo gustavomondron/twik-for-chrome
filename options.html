@@ -39,48 +39,77 @@
       
       <h2 i18n="profile_options"></h2>
       
-      <div class="options-item">
-        <label i18n="profile"></label>
-        <select id="profile" name="profile">
-        </select>
-        <button id="button_add_profile" i18n="add_profile"/>
-        <button id="button_remove_profile" i18n="remove_profile"/>
-      </div>
-      
-      <div class="options-item">
-        <label i18n="name"></label>
-        <input type="text" name="name" id="name" size="25" maxlength="25"/>
-      </div>
-      
-      <div class="options-item">
-        <label i18n="private_key"></label>
-        <input type="text" name="private_key" id="private_key" size="42" maxlength="40"/>
-      </div>
-      
-      <div class="options-item">
-        <label i18n="password_length"></label>
-        <select name="password_length" id="password_length">
-        </select>
-      </div>
-      
-      <div class="options-item">
-        <label i18n="password_type"></label>
-        <select name="password_type" id="password_type">
-        </select>
-      </div>
-      
-      <div class="options-item" id="color-palette">
-        <label i18n="color"></label>
+      <div class="table">
+        <div class="row">
+          <div class="cell">
+             <label i18n="profile"></label>
+          </div>
+          <div class="cell">
+            <select id="profile" name="profile"></select>
+            <button id="button_add_profile" i18n="add_profile"/>
+            <button id="button_remove_profile" i18n="remove_profile"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="cell">
+             <label i18n="name"></label>
+          </div>
+          <div class="cell">
+            <input type="text" name="name" id="name" size="25" maxlength="25"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="cell">
+            <label i18n="private_key"></label>
+          </div>
+          <div class="cell">
+            <input type="text" name="private_key" id="private_key" size="42" maxlength="40"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="cell">
+            <label i18n="password_length"></label>
+          </div>
+          <div class="cell">
+            <select name="password_length" id="password_length"></select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="cell">
+            <label i18n="password_type"></label>
+          </div>
+          <div class="cell">
+            <select name="password_type" id="password_type"></select>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="cell">
+            <label i18n="color"></label>
+          </div>
+          <div class="cell" id="color-palette">
+          </div>
+        </div>
       </div>
       
       <h2 i18n="synchronization_options"></h2>
-        <div class="options-item-checkbox">
-          <input type="checkbox" name="sync_private_keys" id="sync_private_keys"/>
+      <div class="table">
+        <div class="row">
+          <div class="cell">
+            <input type="checkbox" name="sync_private_keys" id="sync_private_keys"/>
+          </div>
+          <div class="cell">
+            <label i18n="synchronize" class="options-item-small"></label><br/>
+            <label i18n="stored_in_google_account"></label>
+          </div>
         </div>
-        <label i18n="synchronize" class="options-item-small"></label><br/>
-        <div class="options-item-checkbox">&nbsp;</div>
-        <label i18n="stored_in_google_account"></label>
-        
+      </div>
+      
       <br/><br/>
       <a href="about.html" target="_blank" i18n="about"></a>
     </div>

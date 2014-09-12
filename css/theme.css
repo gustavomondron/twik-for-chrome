@@ -42,13 +42,12 @@ h2 {
 }
 
 #popup-container {
-  width: 440px;
+  width: 400px;
 }
+
 
 #container {
   display: block;
-  font-family: "Open Sans",Arial,"Lucida Grande",sans-serif;
-  font-size: 16px;
   line-height: 1.5em;
 }
 
@@ -58,12 +57,6 @@ div.options-item {
   clear: both;
 }
 
-div.options-item label {
-  display: block;
-  float: left;
-  width: 225px;
-}
-
 div.options-item-checkbox {
   width: 30px;
   float: left;
@@ -71,12 +64,9 @@ div.options-item-checkbox {
   clear: both;
 }
 
-label.options-item-small {
-  line-height: 2em;
-}
-
 body {
   font-family: "Open Sans",Arial,"Lucida Grande",sans-serif;
+  font-size: 14px;
 }
 
 a {
@@ -126,12 +116,8 @@ a {
   display: table-row;
 }
 
-.cell, .cell-right {
+.cell {
   display: table-cell;
   border: none;
   padding: 5px 5px 5px 0px;
-}
-
-.cell-right {
-  text-align: right;
 }
