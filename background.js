@@ -18,7 +18,6 @@
  */
 
 var profileList;
-var messagesPort;
 var syncPrivateKeys = false;
 
 // Get profile list
