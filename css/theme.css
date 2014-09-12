@@ -42,11 +42,14 @@ h2 {
 }
 
 #popup-container {
+  font-family: "Open Sans",Arial,"Lucida Grande",sans-serif;
+  font-size: 14px;
   width: 400px;
 }
 
-
 #container {
+  font-family: "Open Sans",Arial,"Lucida Grande",sans-serif;
+  font-size: 14px;
   display: block;
   line-height: 1.5em;
 }
@@ -62,11 +65,6 @@ div.options-item-checkbox {
   float: left;
   line-height: 2em;
   clear: both;
-}
-
-body {
-  font-family: "Open Sans",Arial,"Lucida Grande",sans-serif;
-  font-size: 14px;
 }
 
 a {
