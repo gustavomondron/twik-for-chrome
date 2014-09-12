@@ -83,19 +83,33 @@ a {
   outline-offset: 3px;
 }
 
-.twik-checkbox {
-  -webkit-appearance: checkbox !important;
-  width: auto !important;
-  height: auto !important;
+.twik-tip {
+  display: table-cell;
   vertical-align: middle;
 }
 
 .twik-tip label {
   font-family: 'Chivo', 'Helvetica Neue', Helvetica, Arial, serif;
   color: #006400;
-  vertical-align: middle;
   font-weight: 900;
   font-size: 14px;
+  display: block !important;
+  padding-left: 15px !important;
+  text-indent: -15px !important;
+  margin: 0 !important;
+  line-height: 1em !important;
+}
+
+.twik-checkbox {
+  -webkit-appearance: checkbox !important;
+  width: 13px !important;
+  height: 13px !important;
+  padding: 0 !important;
+  margin: 0 5px 0 0 !important;
+  vertical-align: bottom !important;
+  position: relative !important;
+
+  line-height: 1em !important;
 }
 
 .twik-enabled {

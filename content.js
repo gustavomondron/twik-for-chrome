@@ -40,8 +40,8 @@ function PasswordActivator(passwordInput) {
 
   this.currentPassword = ''; // Don't hash what is already hashed!
   this.inputBackgroundColor = $(passwordInput).css('background-color');
-  this.tipTextDisabled = '<div class="twik-tip"><input type="checkbox" class="twik-checkbox"/> <label>twik</label></div>';
-    this.tipTextEnabled = '<div class="twik-tip"><input type="checkbox" class="twik-checkbox" checked="checked"/><label>twik</label></div>';
+  this.tipTextDisabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox"/> twik</label></div>';
+    this.tipTextEnabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox" checked="checked"/> twik</label></div>';
   this.init();
 }
 
