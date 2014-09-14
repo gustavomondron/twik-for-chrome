@@ -88,7 +88,7 @@ PasswordActivator.prototype.init = function() {
   });
   
   $(this.passwordInput).keydown(function(e) {
-    if (e.which == 13) {
+    if (e.which == 13 && activator.twikEnabled) {
       // Submitting form
       activator.updatePassword();
       return true;
