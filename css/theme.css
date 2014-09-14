@@ -119,6 +119,10 @@ a {
   color: #ffffff !important;
 }
 
+.qtip {
+  z-index: 2147483647 !important;
+}
+
 #profile-color-marker {
   display: inline;
   vertical-align: middle;
