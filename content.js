@@ -38,7 +38,7 @@ function PasswordActivator(passwordInput) {
   enabled_inputs = settings['enabled_inputs'];
   this.twikEnabled = enabled_inputs.indexOf(this.id) >= 0;
   this.masterKey = '';
-  this.inputBackgroundColor = $(passwordInput).css('background-color');
+  this.inputBackground = $(passwordInput).css('background');
   this.tipTextDisabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox"/> twik</label></div>';
     this.tipTextEnabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox" checked="checked"/> twik</label></div>';
   this.init();
@@ -110,7 +110,7 @@ PasswordActivator.prototype.init = function() {
 PasswordActivator.prototype.toggleTwik = function(sendMessage) {
   this.twikEnabled = !this.twikEnabled;
   if (this.twikEnabled) {
-    $(this.passwordInput).css('background-color', PROFILE_COLORS[settings.color]);
+    this.passwordInput.get(0).style.setProperty('background', PROFILE_COLORS[settings.color], 'important');
     $(this.passwordInput).addClass('twik-enabled');
     this.currentPassword = this.updatePassword();
     // Save the site in the case that this is the first use
@@ -131,7 +131,7 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
       );
     }
   } else {
-    $(this.passwordInput).css('background-color', this.inputBackgroundColor);
+    this.passwordInput.get(0).style.setProperty('background', this.inputBackground, 'important');
     $(this.passwordInput).removeClass('twik-enabled');
     $(this.passwordInput).val(this.masterKey);
     if (sendMessage) {
