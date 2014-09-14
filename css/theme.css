@@ -108,12 +108,15 @@ a {
   margin: 0 5px 0 0 !important;
   vertical-align: bottom !important;
   position: relative !important;
-
   line-height: 1em !important;
 }
 
 .twik-enabled {
   color:white !important;
+}
+
+.twik-enabled::-webkit-input-placeholder {
+  color: #ffffff !important;
 }
 
 #profile-color-marker {
