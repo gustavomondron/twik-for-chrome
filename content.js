@@ -28,6 +28,7 @@ var url = location.href;
 // Object which manages a password input
 function PasswordActivator(passwordInput) {  
   this.passwordInput = passwordInput;
+  
   if (passwordInput.attr('id') == "") {
     this.id = "twik_" + inputIndex++;
   } else {
@@ -35,10 +36,9 @@ function PasswordActivator(passwordInput) {
   }
   this.twikCheckbox = null;
   enabled_inputs = settings['enabled_inputs'];
-  
   this.twikEnabled = enabled_inputs.indexOf(this.id) >= 0;
-
-  this.currentPassword = ''; // Don't hash what is already hashed!
+  this.masterKey = '';
+  this.passwordUpdated = true;
   this.inputBackgroundColor = $(passwordInput).css('background-color');
   this.tipTextDisabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox"/> twik</label></div>';
     this.tipTextEnabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox" checked="checked"/> twik</label></div>';
@@ -80,15 +80,17 @@ PasswordActivator.prototype.init = function() {
     }
   });
   
-  $(this.passwordInput).change(function() {
-    if (activator.twikEnabled && $(this).val() != activator.currentPassword) {
-      // Password changed by user, we should recalculate it
-      activator.updatePassword();
-    }
+  $(this.passwordInput).focus(function() {
+    $(this).val(activator.masterKey);
+  });
+  
+  $(this.passwordInput).keyup(function() {
+    activator.masterKey = $(this).val();
+    this.passwordUpdated = false;
   });
   
   $(this.passwordInput).blur(function() {
-    if (activator.twikEnabled && $(this).val() != activator.currentPassword) {
+    if (activator.twikEnabled && !this.passwordUpdated) {
       activator.updatePassword();
     }
   });
@@ -104,7 +106,7 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
   if (this.twikEnabled) {
     $(this.passwordInput).css('background-color', PROFILE_COLORS[settings.color]);
     $(this.passwordInput).addClass('twik-enabled');
-    this.currentPassword = this.updatePassword($(this.passwordInput));
+    this.currentPassword = this.updatePassword();
     // Save the site in the case that this is the first use
     chrome.runtime.sendMessage(
       {
@@ -125,6 +127,7 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
   } else {
     $(this.passwordInput).css('background-color', this.inputBackgroundColor);
     $(this.passwordInput).removeClass('twik-enabled');
+    $(this.passwordInput).val(this.masterKey);
     if (sendMessage) {
       chrome.runtime.sendMessage(
         {
@@ -139,20 +142,18 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
 }
 
 PasswordActivator.prototype.updatePassword = function() {
-  if ($(this.passwordInput).val() != "") {
+  if (this.masterKey != '') {
     var passwordHasher = new PasswordHasher();
     var sitePassword = passwordHasher.hashPassword(
       settings.tag,
-      $(this.passwordInput).val(),
+      this.masterKey,
       settings.private_key,
       settings.password_length,
       settings.password_type
     );
     $(this.passwordInput).val(sitePassword);
-    this.currentPassword = sitePassword;
-  } else {
-    this.currentPassword = "";
   }
+  this.passwordUpdated = true;
 }
 
 PasswordActivator.prototype.isEnabled = function() {
