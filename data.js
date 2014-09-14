@@ -163,6 +163,11 @@ ProfileList.prototype.getProfileForSite = function(site) {
   var profileIndex = 0;
   if (this.siteProfiles[site] != null) {
     profileIndex = this.siteProfiles[site];
+    // Check that profileIndex is valid
+    if (profileIndex >= this.count()) {
+      profileIndex = 0;
+      this.setProfileForSite(site, 0, null);
+    }
   }
   return profileIndex;
 }
