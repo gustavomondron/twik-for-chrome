@@ -98,8 +98,8 @@ a {
 }
 
 .twik-tip label {
-  font-family: 'Roboto Condensed', sans-serif;
-  color: #006400;
+  font-family: 'Roboto', sans-serif;
+  color: #ffffff;
   font-weight: 500;
   font-size: 16px;
   display: block !important;
@@ -130,6 +130,11 @@ a {
 
 .qtip {
   z-index: 2147483647 !important;
+}
+
+.qtip-green {
+  background: #259b24 !important;
+  border-color: #2b802b !important;
 }
 
 #profile-color-marker {
