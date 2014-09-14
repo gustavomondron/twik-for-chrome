@@ -38,7 +38,6 @@ function PasswordActivator(passwordInput) {
   enabled_inputs = settings['enabled_inputs'];
   this.twikEnabled = enabled_inputs.indexOf(this.id) >= 0;
   this.masterKey = '';
-  this.passwordUpdated = true;
   this.inputBackgroundColor = $(passwordInput).css('background-color');
   this.tipTextDisabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox"/> twik</label></div>';
     this.tipTextEnabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox" checked="checked"/> twik</label></div>';
@@ -86,11 +85,18 @@ PasswordActivator.prototype.init = function() {
   
   $(this.passwordInput).keyup(function() {
     activator.masterKey = $(this).val();
-    this.passwordUpdated = false;
   });
   
+  $(this.passwordInput).keydown(function(e) {
+    if (e.which == 13) {
+      // Submitting form
+      activator.updatePassword();
+      return true;
+    }
+  })
+  
   $(this.passwordInput).blur(function() {
-    if (activator.twikEnabled && !this.passwordUpdated) {
+    if (activator.twikEnabled) {
       activator.updatePassword();
     }
   });
@@ -153,7 +159,6 @@ PasswordActivator.prototype.updatePassword = function() {
     );
     $(this.passwordInput).val(sitePassword);
   }
-  this.passwordUpdated = true;
 }
 
 PasswordActivator.prototype.isEnabled = function() {
