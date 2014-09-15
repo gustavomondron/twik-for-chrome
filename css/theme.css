@@ -40,6 +40,10 @@
   font-size: 24px;
 }
 
+#twik-popup-container h2 {
+  margin-top: 0;
+}
+
 #twik-container input, #twik-container select, #twik-container button {
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
@@ -48,7 +52,9 @@
 #twik-popup-container {
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
-  width: 400px;
+  width: auto;
+  padding: 8px;
+  background-color: #eceff1;
 }
 
 #twik-popup-container input, #twik-popup-container select {
@@ -147,9 +153,11 @@ a {
 
 .twik-row {
   display: table-row;
+  width: auto;
 }
 
 .twik-cell {
+  min-width: 150px;
   display: table-cell;
   border: none;
   padding: 7px 10px 5px 0px;
