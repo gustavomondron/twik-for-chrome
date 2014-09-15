@@ -39,9 +39,10 @@ ProfileList.prototype.getFromStorage = function(callback) {
         // Get keys from local storage
         chrome.storage.local.get('private_keys', function(localItems)  {
           if (localItems.private_keys != null) {
-            profileCount = Object.keys(profiles).length;
+            keys = Object.keys(profiles);
+            profileCount = keys.length;
             for (i = 0; i < profileCount; i++) {
-              profiles[i].private_key = localItems.private_keys[i];
+              profiles[keys[i]].private_key = localItems.private_keys[i];
             }
           }
           ref.list = jQuery.extend({}, profiles);
@@ -64,23 +65,31 @@ ProfileList.prototype.count = function() {
 }
 
 ProfileList.prototype.getProfile = function(index) {
-  return this.list[index];
+  return this.list[Object.keys(this.list)[index]];
 }
 
 ProfileList.prototype.setProfile = function(index, profile) {
-  this.list[index] = profile;
+  if (index < this.count()) {
+    this.list[Object.keys(this.list)[index]] = profile;
+  } else {
+    this.list[this.getNewIndex()] = profile;
+  }
 }
 
 ProfileList.prototype.removeProfile = function(index) {
   if (index < this.count()) {
-    delete this.list[index];
+    delete this.list[Object.keys(this.list)[index]];
   }
+}
+
+ProfileList.prototype.getNewIndex = function() {
+  return parseInt(Object.keys(this.list)[this.count() - 1]) + 1;
 }
 
 ProfileList.prototype.getPrivateKeys = function() {
   privateKeys = [];
   for (i = 0; i < this.count(); i++) {
-    privateKeys[i] = this.list[i].private_key;
+    privateKeys[i] = this.getProfile(i).private_key;
   }
   return privateKeys;
 }
@@ -91,9 +100,10 @@ ProfileList.prototype.setToStorage = function(callback) {
   if (this.syncPrivateKeys) {
     profilesToStorage = this.list;
   } else {
+    keys = Object.keys(this.list);
     profilesToStorage = JSON.parse(JSON.stringify(this.list));
     for (var i = 0; i < this.count(); i++) {
-      profilesToStorage[i].private_key = '';
+      profilesToStorage[keys[i]].private_key = '';
     }
   }
 
