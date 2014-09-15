@@ -1,0 +1,78 @@
+<!--
+    * Copyright 2014 Red Dye No. 2
+    *
+    * This file is part of Twik.
+    *
+    * Twik is free software: you can redistribute it and/or modify
+    * it under the terms of the GNU General Public License as published by
+    * the Free Software Foundation, either version 3 of the License, or
+    * (at your option) any later version.
+    *
+    * Twik is distributed in the hope that it will be useful,
+    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    * GNU General Public License for more details.
+    *
+    * You should have received a copy of the GNU General Public License
+    * along with Twik.  If not, see <http://www.gnu.org/licenses/>.
+    *
+    -->
+
+<html>
+  <head>
+    <script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="lib/localization.js"></script>
+    <script type="text/javascript" src="constants.js"></script>
+    <script type="text/javascript" src="util.js"></script>
+    <script type="text/javascript" src="popup.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/theme.css"/>
+  </head>
+  <body style="margin: 0; padding: 0; background: #eceff1">
+    <div id="twik-popup-container">
+      <header>
+        <img src="images/icon-64.png" width="32" height="32" alt="twik"/>
+        <h2>twik</h2>
+      </header>
+      
+      <div class="twik-table">
+        <div class="twik-row">
+          <div class="twik-cell">
+            <label i18n="profile"></label>
+          </div>
+          <div class="twik-cell">
+            <select id="profile" name="profile">
+            </select>
+            <div id="profile-color-marker">&nbsp;&nbsp;</div>
+          </div>
+        </div> <!-- row -->
+        <div class="twik-row">
+          <div class="twik-cell">
+            <label i18n="website_tag"></label>
+          </div>
+          <div class="twik-cell">
+            <input type="text" name="tag" id="tag" size="20" maxlength="25"/>
+          </div>
+        </div> <!-- row -->
+        <div class="twik-row">
+          <div class="twik-cell">
+            <label i18n="password_length"></label>
+          </div>
+          <div class="twik-cell">
+            <select name="password_length" id="password_length"></select>
+          </div>
+        </div> <!-- row -->
+        <div class="twik-row">
+          <div class="twik-cell">
+            <label i18n="password_type"></label>
+          </div>
+          <div class="twik-cell">
+            <select name="password_type" id="password_type"></select>
+          </div>
+        </div> <!-- row -->
+      </div> <!-- table -->
+      <br/>
+      <a id="link-options" href="#" i18n="options"></a>
+    </div>
+  </body>

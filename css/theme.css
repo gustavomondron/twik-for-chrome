@@ -1,0 +1,164 @@
+/*
+ * Copyright (C) 2014 Red Dye No. 2
+ *
+ * This file is part of Twik.
+ *
+ * Twik is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Twik is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Twik.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#twik-container header, #twik-popup-container header {
+  display: block;
+  vertical-align: baseline;
+}
+
+#twik-container header img, #twik-popup-container header img {
+  float: left;
+  margin-right: 20px;
+  display: inline;
+  vertical-align: middle;
+}
+
+#twik-container h1, #twik-container h2, #twik-popup-container h1, #twik-popup-container h2 {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 48px;
+  color: #303030;
+  line-height: 1.3;
+}
+
+#twik-container h2, #twik-popup-container h2 {
+  font-size: 24px;
+}
+
+#twik-popup-container h2 {
+  margin-top: 0;
+}
+
+#twik-container input, #twik-container select, #twik-container button {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+}
+
+#twik-popup-container {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  width: auto;
+  padding: 8px;
+  background-color: #eceff1;
+}
+
+#twik-popup-container input, #twik-popup-container select {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+}
+
+#twik-container {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  display: block;
+  line-height: 1.5em;
+}
+
+div.options-item {
+  display: block;
+  line-height: 2em;
+  clear: both;
+}
+
+div.options-item-checkbox {
+  width: 30px;
+  float: left;
+  line-height: 2em;
+  clear: both;
+}
+
+a {
+  text-decoration: none;
+  color: #4d7e00;
+}
+#color-palette button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  margin: 5px;
+}
+
+#color-palette button.selected {
+  outline: 1px solid #2095f6;
+  outline-offset: 3px;
+}
+
+.twik-tip {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.twik-tip label {
+  font-family: 'Roboto', sans-serif;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 16px;
+  display: block !important;
+  padding-left: 15px !important;
+  text-indent: -15px !important;
+  margin: 0 !important;
+  line-height: 1em !important;
+}
+
+.twik-checkbox {
+  -webkit-appearance: checkbox !important;
+  width: 13px !important;
+  height: 13px !important;
+  padding: 0 !important;
+  margin: 0 5px 0 0 !important;
+  vertical-align: bottom !important;
+  position: relative !important;
+  line-height: 1em !important;
+}
+
+.twik-enabled {
+  color:white !important;
+}
+
+.twik-enabled::-webkit-input-placeholder {
+  color: #ffffff !important;
+}
+
+.qtip {
+  z-index: 2147483647 !important;
+}
+
+.qtip-green {
+  background: #259b24 !important;
+  border-color: #2b802b !important;
+}
+
+#profile-color-marker {
+  display: inline;
+}
+
+.twik-table {
+  display: table;
+}
+
+.twik-row {
+  display: table-row;
+  width: auto;
+}
+
+.twik-cell {
+  min-width: 150px;
+  display: table-cell;
+  border: none;
+  padding: 7px 10px 5px 0px;
+}

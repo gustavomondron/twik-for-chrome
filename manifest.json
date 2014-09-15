@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  
+  "name": "__MSG_twik_name__",
+  "description" : "__MSG_twik_description__",
+  "version": "0.3.9",
+  "default_locale" : "en",
+  
+  "icons": {
+    "64" : "images/icon-64.png",
+    "128": "images/icon-128.png"
+  },
+  
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  
+  "browser_action": {
+    "default_icon": "images/icon-action.png",
+    "default_popup": "popup.html"
+  },
+  
+  "options_page": "options.html",
+
+    "content_scripts": [ {
+      "all_frames": true,
+      "css": [ "css/jquery.qtip.min.css", "css/theme.css" ],
+      "js": ["lib/tld.js", "lib/jquery-2.1.1.min.js", "lib/jquery.qtip.min.js", "util.js", "constants.js", "lib/sha1.js", "lib/PasswordHasher.js", "content.js"],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_end"
+   }],
+  
+  "background": {
+    "page": "background.html"
+  }
+}
+

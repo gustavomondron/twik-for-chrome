@@ -1,0 +1,131 @@
+{
+  "twik_name": {
+    "message": "Twik Password Generator",
+    "description": ""
+  },
+
+  "twik_description": {
+    "message": "Password manager and generator",
+    "description": ""
+  },
+  
+  "default": {
+    "message": "Default",
+    "description": ""
+  },
+  
+  "alphanumeric_and_special_chars": {
+    "message": "Alphanumeric and special chars",
+    "description": ""
+  },
+  
+  "alphanumeric": {
+    "message": "Alphanumeric",
+    "description": ""
+  },
+  
+  "numeric": {
+    "message": "Numeric",
+    "description": ""
+  },
+  
+  "profile": {
+    "message": "Profile",
+    "description": ""
+  },
+  
+  "name": {
+    "message": "Name",
+    "description": ""
+  },
+  
+  "private_key": {
+    "message": "Private key",
+    "description": ""
+  },
+  
+  "color": {
+    "message": "Color",
+    "description": ""
+  },
+  
+  "password_length": {
+    "message": "Password length",
+    "description": ""
+  },
+  
+  "password_type": {
+    "message": "Password type",
+    "description": ""
+  },
+  
+  "add_profile": {
+    "message": "Add profile",
+    "description": ""
+  },
+  
+  "remove_profile": {
+    "message": "Remove profile",
+    "description": ""
+  },
+  
+  "new_profile": {
+    "message": "New profile",
+    "description": ""
+  },
+  
+  "website_tag": {
+    "message": "Website tag",
+    "description": ""
+  },
+  
+  "options": {
+    "message": "Options",
+    "description": ""
+  },
+  
+  "profile_options": {
+    "message": "Profile options",
+    "description": ""
+  },
+  
+  "synchronization_options": {
+    "message": "Synchronization options",
+    "description": ""
+  },
+  
+  "synchronize": {
+    "message": "Synchronize your private keys among your Chrome installations.",
+    "description": ""
+  },
+
+  "stored_in_google_account": {
+    "message": "Private keys will be stored in your Google account and can only be read by you.",
+    "description": ""
+  },
+  
+  "about": {
+    "message": "About Twik",
+    "description": ""
+  },
+  
+  "about_content": {
+    "message": "<strong>Twik</strong> is an application that makes it easier to generate secure and different passwords for each website.<br/><br/><strong>Twik</strong> is based on the password generation mechanism of Password Hasher by Steve Cooper and Password Hasher Plus by Eric Woodruff.",
+    "description": ""
+  },
+  
+  "license": {
+    "message": "License",
+    "description": ""
+  },
+  
+  "external_code": {
+    "message": "External code",
+    "description": ""
+  },
+  
+  "external_code_content": {
+    "message" : "This project uses code from third-parties, licensed under their own terms:",
+    "description": ""
+  }
+}
