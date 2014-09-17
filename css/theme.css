@@ -104,16 +104,17 @@ a {
 }
 
 .twik-tip label {
-  font-family: 'Roboto', sans-serif;
-  color: #ffffff;
-  font-weight: 500;
-  font-size: 16px;
+  font-family: 'Roboto', sans-serif !important;
+  color: #ffffff !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
   display: block !important;
   padding-left: 15px !important;
   text-indent: -15px !important;
   margin: 0 !important;
   line-height: 1em !important;
   width: auto !important;
+  cursor: default !important;
 }
 
 .twik-checkbox {
@@ -125,6 +126,7 @@ a {
   vertical-align: bottom !important;
   position: relative !important;
   line-height: 1em !important;
+  float: none !important;
 }
 
 .twik-enabled {
