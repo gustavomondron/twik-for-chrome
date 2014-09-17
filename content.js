@@ -29,11 +29,12 @@ var url = location.href;
 function PasswordActivator(passwordInput) {  
   this.passwordInput = passwordInput;
   
-  if (passwordInput.attr('id') == "") {
+  if (passwordInput.attr('id') == null || passwordInput.attr('id') == "") {
     this.id = "twik_" + inputIndex++;
   } else {
     this.id = passwordInput.attr('id');
   }
+  
   this.twikCheckbox = null;
   enabled_inputs = settings['enabled_inputs'];
   this.twikEnabled = enabled_inputs.indexOf(this.id) >= 0;
