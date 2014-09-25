@@ -55,7 +55,7 @@ PasswordActivator.prototype.init = function() {
         activator.tipTextEnabled :
         activator.tipTextDisabled
     },
-    position: { my: 'top right', at: 'bottom right' },
+    position: { my: 'left top', at: 'right bottom' },
     show: {
       event: 'focus mouseenter',
       solo: true
