@@ -127,6 +127,7 @@ a {
   position: relative !important;
   line-height: 1em !important;
   float: none !important;
+  display: inline !important;
 }
 
 .twik-enabled {
