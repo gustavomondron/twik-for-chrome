@@ -198,7 +198,7 @@ function addNewNodeListener() {
 }
 
 function removeNewNodeListener() {
-  document.addEventListener('DOMNodeInserted', activateElement, false);
+  document.removeEventListener('DOMNodeInserted', activateElement, false);
 }
 
 function activateElement(event) {
