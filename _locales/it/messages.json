@@ -1,0 +1,131 @@
+{
+  "twik_name": {
+    "message": "Generatore di password Twik",
+    "description": ""
+  },
+
+  "twik_description": {
+    "message": "Gestore e generatore di password",
+    "description": ""
+  },
+  
+  "default": {
+    "message": "Predefinito",
+    "description": ""
+  },
+  
+  "alphanumeric_and_special_chars": {
+    "message": "Alphanumerica e caratteri speciali",
+    "description": ""
+  },
+  
+  "alphanumeric": {
+    "message": "Alfanumerica",
+    "description": ""
+  },
+  
+  "numeric": {
+    "message": "Numerica",
+    "description": ""
+  },
+  
+  "profile": {
+    "message": "Profilo",
+    "description": ""
+  },
+  
+  "name": {
+    "message": "Nome",
+    "description": ""
+  },
+  
+  "private_key": {
+    "message": "Chiave privata",
+    "description": ""
+  },
+  
+  "color": {
+    "message": "Colore",
+    "description": ""
+  },
+  
+  "password_length": {
+    "message": "Lunghezza password",
+    "description": ""
+  },
+  
+  "password_type": {
+    "message": "Tipo password",
+    "description": ""
+  },
+  
+  "add_profile": {
+    "message": "Aggiungi profilo",
+    "description": ""
+  },
+  
+  "remove_profile": {
+    "message": "Rimuovi profilo",
+    "description": ""
+  },
+  
+  "new_profile": {
+    "message": "Nuovo profilo",
+    "description": ""
+  },
+  
+  "website_tag": {
+    "message": "Etichetta sito web",
+    "description": ""
+  },
+  
+  "options": {
+    "message": "Opzioni",
+    "description": ""
+  },
+  
+  "profile_options": {
+    "message": "Opzioni profilo",
+    "description": ""
+  },
+  
+  "synchronization_options": {
+    "message": "Opzioni di sincronizzazione",
+    "description": ""
+  },
+  
+  "synchronize": {
+    "message": "Sincronizza le chiavi private tra le installazioni di Chrome.",
+    "description": ""
+  },
+
+  "stored_in_google_account": {
+    "message": "Le chiavi private verranno archiviate nell'account Google e potranno essere visualizzate solo da te.",
+    "description": ""
+  },
+  
+  "about": {
+    "message": "Informazioni su Twik",
+    "description": ""
+  },
+  
+  "about_content": {
+    "message": "<strong>Twik</strong> è una applicazione che rende semplice generare password sicure e diverse per ogni sito web.<br/><br/><strong>Twik</strong> si basa sul meccanismo di generazione password di Password Hasher sviluppato da Steve Cooper e Password Hasher Plus di Eric Woodruff.",
+    "description": ""
+  },
+  
+  "license": {
+    "message": "Licenza",
+    "description": ""
+  },
+  
+  "external_code": {
+    "message": "Codice esterno",
+    "description": ""
+  },
+  
+  "external_code_content": {
+    "message" : "Questo progetto utilizza codice di terze parti, rilasciato secondo i termini delle licenze scelte da ognuno di essi:",
+    "description": ""
+  }
+}
