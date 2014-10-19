@@ -64,8 +64,8 @@ function populatePasswordType() {
 function populateProfiles() {
   $('#profile').find('option').remove();
   bgPage = chrome.extension.getBackgroundPage();
-  var profileCount = bgPage.profileList.count();
-  for(i = 0; i < profileCount; i++) {
-    $('#profile').append(new Option(bgPage.profileList.getProfile(i).name, i));
+  var keys = bgPage.profileList.getKeys();
+  for(i = 0; i < keys.length; i++) {
+    $('#profile').append(new Option(bgPage.profileList.getProfile(keys[i]).name, keys[i]));
   }
 }

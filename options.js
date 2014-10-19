@@ -19,8 +19,9 @@
 
 var bgPage;
 var colorPalette = new ColorPalette('color-palette', PROFILE_COLORS, 0, function(value) {
-    bgPage.profileList.getProfile($('#profile').val()).color = value;
-    saveChanges(false, $('#profile').val());
+    var profileKey = $('#profile').val();
+    bgPage.profileList.getProfile(profileKey).color = value;
+    saveChanges(false, profileKey);
   });
 
 window.onload = function() {
@@ -33,7 +34,7 @@ function setupUI() {
   setSyncPrivateKeys();
   populatePasswordLength();
   populatePasswordType();
-  populateProfileList(0);
+  populateProfileList(-1);
   
   $('#profile').change(function() {
     selectProfile($('#profile').val());
@@ -41,18 +42,25 @@ function setupUI() {
   
   $('#button_add_profile').click(function() {
     addProfile();
-    saveChanges(true, bgPage.profileList.count() - 1);
+    var keys = bgPage.profileList.getKeys();
+    saveChanges(true, keys[keys.length - 1]);
   });
   
   $('#button_remove_profile').click(function() {
-    index = $('#profile').val();
-    removeProfile(index);
-    var newIndex = index - 1 >= 0 ? index - 1 : 0;
-    saveChanges(true, newIndex);
+    var keys = bgPage.profileList.getKeys();
+    var index = $.inArray($('#profile').val(), keys);
+    var newSelectedKey;
+    removeProfile($('#profile').val());
+    if (index > 0) {
+      newSelectedKey = keys[index - 1];
+    } else {
+      newSelectedKey = keys[0];
+    }
+    saveChanges(true, newSelectedKey);
   });
   
   $('#sync_private_keys').change(function() {
-    saveChanges(false, 0);
+    saveChanges(false, -1);
   })
   
   $('#name').change(function() {
@@ -61,11 +69,11 @@ function setupUI() {
   });
   
   $('#private_key, #password_length, #password_type').change(function() {
-    profile = bgPage.profileList.getProfile($('#profile').val());
+    var profile = bgPage.profileList.getProfile($('#profile').val());
     profile.private_key = $('#private_key').val();
     profile.password_length = $('#password_length').val();
     profile.password_type = $('#password_type').val();
-    saveChanges(false, 0);
+    saveChanges(false, -1);
   });
 }
 
@@ -81,27 +89,30 @@ function init() {
   }
 }
 
-function selectProfile(index) {
-  var profile = bgPage.profileList.getProfile(index);
+function selectProfile(key) {
+  var profile = bgPage.profileList.getProfile(key);
   $('#name').val(profile.name);
   $('#private_key').val(profile.private_key);
   $('#password_length').val(profile.password_length);
   $('#password_type').val(profile.password_type);
-  $('#profile').val(index);
+  $('#profile').val(key);
   colorPalette.selectColor(profile.color);
 }
 
-function populateProfileList(index) {
+function populateProfileList(key) {
   var profileCount = bgPage.profileList.count();
+  var keys = bgPage.profileList.getKeys();
   $('#button_remove_profile').prop('disabled', profileCount < 2);
   $('#profile').find('option').remove();
   for (i = 0; i < profileCount; i++) {
-    var profile = bgPage.profileList.getProfile(i);
-    $('#profile').append(new Option(profile.name, i));
+    var profile = bgPage.profileList.getProfile(keys[i]);
+    $('#profile').append(new Option(profile.name, keys[i]));
   }
   
-  if (index >= 0 && index < profileCount) {
-    selectProfile(index);
+  if ($.inArray(key, keys) != -1) {
+    selectProfile(key);
+  } else {
+    selectProfile(keys[0]);
   }
 }
 
@@ -128,8 +139,8 @@ function addProfile() {
     saveChanges(true, profileCount);
 }
 
-function removeProfile(index) {
-  bgPage.profileList.removeProfile(index);
+function removeProfile(key) {
+  bgPage.profileList.removeProfile(key);
 }
 
 function saveChanges(updateList, index) {
@@ -145,13 +156,13 @@ function getNewProfileName() {
   var candidate_suffix = 1;
   var candidate_prefix = chrome.i18n.getMessage('new_profile', null);
   var candidate_name = candidate_prefix;
-  var profileCount = bgPage.profileList.count();
+  var keys = bgPage.profileList.getKeys();
   while (true) {
     i = 0;
     do {
-      found = bgPage.profileList.getProfile(i).name === candidate_name;
+      found = bgPage.profileList.getProfile(keys[i]).name === candidate_name;
       i++;
-    } while (!found && i < profileCount);
+    } while (!found && i < keys.length);
     if (!found) {
       return candidate_name;
     } else {

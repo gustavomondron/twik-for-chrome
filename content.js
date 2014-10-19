@@ -40,8 +40,7 @@ function PasswordActivator(passwordInput) {
   this.twikEnabled = enabled_inputs.indexOf(this.id) >= 0;
   this.masterKey = '';
   this.inputBackground = $(passwordInput).css('background');
-  this.tipTextDisabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox"/> twik</label></div>';
-    this.tipTextEnabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox" checked="checked"/> twik</label></div>';
+  this.tipText = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox"/> twik</label></div>';
   this.init();
 }
 
@@ -51,9 +50,7 @@ PasswordActivator.prototype.init = function() {
   // Add Twik qtip
   $(this.passwordInput).qtip ({
     content: {
-      text: activator.twikEnabled ?
-        activator.tipTextEnabled :
-        activator.tipTextDisabled
+      text: activator.tipText
     },
     position: { my: 'left top', at: 'right bottom' },
     show: {
@@ -68,7 +65,7 @@ PasswordActivator.prototype.init = function() {
       classes: 'qtip-green'
     },
     events: {
-      visible: function (event, api) {
+      render: function (event, api) {
         if (null != activator.twikCheckbox) {
           return;
         }
@@ -76,6 +73,9 @@ PasswordActivator.prototype.init = function() {
         activator.twikCheckbox.addEventListener("click", function () {
           activator.toggleTwik(true);
         });
+        if (activator.twikEnabled) {
+          activator.twikCheckbox.checked = 'checked';
+        }
       }
     }
   });
@@ -131,6 +131,10 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
         null
       );
     }
+
+    if (this.twikCheckbox != null) {
+      this.twikCheckbox.checked = 'checked';
+    }
   } else {
     this.passwordInput.get(0).style.setProperty('background', this.inputBackground, 'important');
     $(this.passwordInput).removeClass('twik-enabled');
@@ -144,6 +148,9 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
         },
         null
       );
+    }
+    if (this.twikCheckbox != null) {
+      this.twikCheckbox.checked = '';
     }
   }
 }
@@ -168,7 +175,7 @@ PasswordActivator.prototype.isEnabled = function() {
 
 PasswordActivator.prototype.updateBackgroundColor = function() {
   if (this.twikEnabled) {
-    $(this.passwordInput).css('background-color', PROFILE_COLORS[settings.color]);
+    this.passwordInput.get(0).style.setProperty('background', PROFILE_COLORS[settings.color], 'important');
   }
 }
 
@@ -186,6 +193,11 @@ function activatePasswordInputs() {
 function updatePasswordInputs() {
   for (i = 0; i < passwordActivators.length; i++) {
     activator = passwordActivators[i];
+    var enabledInProfile = $.inArray(activator.id, settings.enabled_inputs) != -1;
+    if (enabledInProfile != activator.isEnabled()) {
+      activator.toggleTwik();
+    }
+
     if (activator.isEnabled()) {
       activator.updateBackgroundColor();
       activator.updatePassword();
