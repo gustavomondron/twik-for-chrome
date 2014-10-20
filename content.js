@@ -36,11 +36,13 @@ function PasswordActivator(passwordInput) {
   }
   
   this.twikEnableButton = null;
+  this.twikShowButton = null;
   enabled_inputs = settings['enabled_inputs'];
   this.twikEnabled = enabled_inputs.indexOf(this.id) >= 0;
+  this.passwordShown = false;
   this.masterKey = '';
   this.inputBackground = $(passwordInput).css('background');
-  this.tipText = '<div class="twik-tip"><button class="twik-button"/></div>';
+  this.tipText = '<div class="twik-tip"><button class="twik-show-pass-button"/><button class="twik-button"/></div>';
   this.init();
 }
 
@@ -82,6 +84,10 @@ PasswordActivator.prototype.init = function() {
         if (!activator.twikEnabled) {
           $(activator.twikEnableButton).addClass("twik-button-disabled");
         }
+        activator.twikShowButton = $(".twik-show-pass-button", api.elements.content).get(0);
+        activator.twikShowButton.addEventListener("click", function() {
+          activator.toggleShowPassword();
+        });
       }
     }
   });
@@ -111,6 +117,19 @@ PasswordActivator.prototype.init = function() {
   if (this.twikEnabled) {
     this.twikEnabled = false; // Not really enabled at the beginning :-)
     this.toggleTwik(false);
+  }
+}
+
+PasswordActivator.prototype.toggleShowPassword = function(sendMessage) {
+  this.passwordShown = !this.passwordShown;
+  if (this.passwordShown) {
+    $(this.twikShowButton).addClass('twik-hide-pass-button');
+    $(this.twikShowButton).removeClass('twik-show-pass-button');
+    this.passwordInput.get(0).setAttribute('type', 'text');
+  } else {
+    $(this.twikShowButton).addClass('twik-show-pass-button');
+    $(this.twikShowButton).removeClass('twik-hide-pass-button');
+    this.passwordInput.get(0).setAttribute('type', 'password');
   }
 }
 
