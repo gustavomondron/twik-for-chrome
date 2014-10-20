@@ -52,7 +52,10 @@ PasswordActivator.prototype.init = function() {
     content: {
       text: activator.tipText
     },
-    position: { my: 'left top', at: 'right bottom' },
+    position: {
+      my: 'right top',
+      at: 'right bottom'
+    },
     show: {
       event: 'focus mouseenter',
       solo: true
@@ -62,7 +65,10 @@ PasswordActivator.prototype.init = function() {
       event: 'unfocus'
     },
     style: {
-      classes: 'qtip-green'
+      classes: 'qtip-green',
+      tip: {
+        corner: false
+      }
     },
     events: {
       render: function (event, api) {
