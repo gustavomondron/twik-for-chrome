@@ -35,12 +35,12 @@ function PasswordActivator(passwordInput) {
     this.id = passwordInput.attr('id');
   }
   
-  this.twikCheckbox = null;
+  this.twikEnableButton = null;
   enabled_inputs = settings['enabled_inputs'];
   this.twikEnabled = enabled_inputs.indexOf(this.id) >= 0;
   this.masterKey = '';
   this.inputBackground = $(passwordInput).css('background');
-  this.tipText = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox"/> twik</label></div>';
+  this.tipText = '<div class="twik-tip"><button class="twik-button"/></div>';
   this.init();
 }
 
@@ -54,7 +54,7 @@ PasswordActivator.prototype.init = function() {
     },
     position: {
       my: 'right top',
-      at: 'right bottom'
+      at: 'right bottom',
     },
     show: {
       event: 'focus mouseenter',
@@ -75,12 +75,12 @@ PasswordActivator.prototype.init = function() {
         if (null != activator.twikCheckbox) {
           return;
         }
-        activator.twikCheckbox = $(".twik-checkbox", api.elements.content).get(0);
-        activator.twikCheckbox.addEventListener("click", function () {
+        activator.twikEnableButton = $(".twik-button", api.elements.content).get(0);
+        activator.twikEnableButton.addEventListener("click", function () {
           activator.toggleTwik(true);
         });
-        if (activator.twikEnabled) {
-          activator.twikCheckbox.checked = 'checked';
+        if (!activator.twikEnabled) {
+          $(activator.twikEnableButton).addClass("twik-button-disabled");
         }
       }
     }
@@ -138,8 +138,8 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
       );
     }
 
-    if (this.twikCheckbox != null) {
-      this.twikCheckbox.checked = 'checked';
+    if (this.twikEnableButton != null) {
+      $(this.twikEnableButton).removeClass("twik-button-disabled");
     }
   } else {
     this.passwordInput.get(0).style.setProperty('background', this.inputBackground, 'important');
@@ -155,8 +155,8 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
         null
       );
     }
-    if (this.twikCheckbox != null) {
-      this.twikCheckbox.checked = '';
+    if (this.twikEnableButton != null) {
+      $(this.twikEnableButton).addClass("twik-button-disabled");
     }
   }
 }

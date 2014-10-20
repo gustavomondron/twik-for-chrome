@@ -33,6 +33,10 @@
   
   "background": {
     "page": "background.html"
-  }
+  },
+
+  "web_accessible_resources" : [
+    "images/*.png"
+  ]
 }
 
