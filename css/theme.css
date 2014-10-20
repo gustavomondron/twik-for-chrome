@@ -152,6 +152,7 @@ a {
   height: 24px !important;
   min-width: 24px !important;
   min-height: 24px !important;
+  outline: none !important;
   cursor: pointer;
 }
 
@@ -165,6 +166,7 @@ a {
   height: 24px !important;
   min-width: 24px !important;
   min-height: 24px !important;
+  outline: none !important;
   cursor: pointer;
 }
 
@@ -178,6 +180,7 @@ a {
   height: 24px !important;
   min-width: 24px !important;
   min-height: 24px !important;
+  outline: none !important;
   cursor: pointer;
 }
 
