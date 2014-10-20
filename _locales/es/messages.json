@@ -119,6 +119,16 @@
     "description": ""
   },
   
+  "acknowledgements": {
+    "message": "Agradecimientos",
+    "description" : ""
+  },
+
+  "acknowledgements_content": {
+    "message": "Traducción al italiano por Claudio Arseni",
+    "description" : ""
+  },
+  
   "external_code": {
     "message": "Código de terceras partes",
     "description" : ""
