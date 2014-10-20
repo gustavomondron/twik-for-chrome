@@ -61,35 +61,44 @@ ProfileList.prototype.getFromStorage = function(callback) {
 }
 
 ProfileList.prototype.count = function() {
-  return Object.keys(this.list).length;
+  return this.getKeys().length;
 }
 
-ProfileList.prototype.getProfile = function(index) {
-  return this.list[Object.keys(this.list)[index]];
+ProfileList.prototype.getProfile = function(key) {
+  return this.list[key];
 }
 
-ProfileList.prototype.setProfile = function(index, profile) {
-  if (index < this.count()) {
-    this.list[Object.keys(this.list)[index]] = profile;
-  } else {
-    this.list[this.getNewIndex()] = profile;
+ProfileList.prototype.getKeys = function() {
+  return Object.keys(this.list);
+}
+
+ProfileList.prototype.setProfile = function(key, profile) {
+  this.list[key] = profile;
+}
+
+ProfileList.prototype.removeProfile = function(key) {
+  if ($.inArray(key, this.getKeys()) != -1) {
+    delete this.list[key];
   }
 }
 
-ProfileList.prototype.removeProfile = function(index) {
-  if (index < this.count()) {
-    delete this.list[Object.keys(this.list)[index]];
+/*
+  Get a new profile key (the key is an unique index)
+*/
+ProfileList.prototype.getNewKey = function() {
+  var keys = this.getKeys();
+  var newKey = "0";
+  if (keys.length > 0) {
+    newKey = parseInt(keys[keys.length - 1]) + 1;
   }
-}
-
-ProfileList.prototype.getNewIndex = function() {
-  return parseInt(Object.keys(this.list)[this.count() - 1]) + 1;
+  return newKey;
 }
 
 ProfileList.prototype.getPrivateKeys = function() {
   privateKeys = [];
-  for (i = 0; i < this.count(); i++) {
-    privateKeys[i] = this.getProfile(i).private_key;
+  var keys = this.getKeys();
+  for (i = 0; i < keys.length; i++) {
+    privateKeys[i] = this.getProfile(keys[i]).private_key;
   }
   return privateKeys;
 }
@@ -100,9 +109,9 @@ ProfileList.prototype.setToStorage = function(callback) {
   if (this.syncPrivateKeys) {
     profilesToStorage = this.list;
   } else {
-    keys = Object.keys(this.list);
+    keys = this.getKeys();
     profilesToStorage = JSON.parse(JSON.stringify(this.list));
-    for (var i = 0; i < this.count(); i++) {
+    for (var i = 0; i < keys.length; i++) {
       profilesToStorage[keys[i]].private_key = '';
     }
   }
@@ -133,7 +142,7 @@ ProfileList.prototype.createDefaultProfile = function(callback) {
     sites: {}
   };
   
-  this.list[0] = profile;
+  this.list[this.getNewKey()] = profile;
   this.syncPrivateKeys = false;
   var ref = this;
   
@@ -154,10 +163,10 @@ ProfileList.prototype.createDefaultProfile = function(callback) {
   );
 }
 
-ProfileList.prototype.setProfileForSite = function(site, profile_index, callback) {
+ProfileList.prototype.setProfileForSite = function(site, key, callback) {
   var ref = this;
-  if (profile_index >= 0 && profile_index < this.count()) {
-    this.siteProfiles[site] = profile_index;
+  if ($.inArray(key, this.getKeys()) != -1) {
+    this.siteProfiles[site] = key;
     chrome.storage.sync.set(
       { site_profiles: ref.siteProfiles },
       function() {
@@ -170,16 +179,19 @@ ProfileList.prototype.setProfileForSite = function(site, profile_index, callback
 }
 
 ProfileList.prototype.getProfileForSite = function(site) {
-  var profileIndex = 0;
+  var keys = this.getKeys();
+  var profileKey = keys[0];
   if (this.siteProfiles[site] != null) {
-    profileIndex = this.siteProfiles[site];
-    // Check that profileIndex is valid
-    if (profileIndex >= this.count()) {
-      profileIndex = 0;
-      this.setProfileForSite(site, 0, null);
+    profileKey = this.siteProfiles[site];
+    // Check that profileKey exists. In other case, use the first profile
+    var keys = this.getKeys();
+    if ($.inArray(profileKey, keys) == -1) {
+      profileKey = keys[0];
+      this.setProfileForSite(site, profileKey, null);
     }
   }
-  return profileIndex;
+
+  return profileKey;
 }
 
 ProfileList.prototype.getSyncPrivateKeys = function() {

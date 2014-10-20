@@ -30,7 +30,8 @@ window.onload = function() {
   // Select the profile and fill the settings
   chrome.tabs.getSelected(null, function(tab) {
     url = tab.url;
-    $('#profile').val(bgPage.getSelectedProfile(url));
+    var selectedProfile = bgPage.getSelectedProfile(url);
+    $('#profile').val(selectedProfile);
     updateValues();
     setListeners();
   });

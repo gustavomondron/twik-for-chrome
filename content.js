@@ -35,13 +35,14 @@ function PasswordActivator(passwordInput) {
     this.id = passwordInput.attr('id');
   }
   
-  this.twikCheckbox = null;
+  this.twikEnableButton = null;
+  this.twikShowButton = null;
   enabled_inputs = settings['enabled_inputs'];
   this.twikEnabled = enabled_inputs.indexOf(this.id) >= 0;
+  this.passwordShown = false;
   this.masterKey = '';
   this.inputBackground = $(passwordInput).css('background');
-  this.tipTextDisabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox"/> twik</label></div>';
-    this.tipTextEnabled = '<div class="twik-tip"><label><input type="checkbox" class="twik-checkbox" checked="checked"/> twik</label></div>';
+  this.tipText = '<div class="twik-tip"><button class="twik-show-pass-button"/><button class="twik-button"/></div>';
   this.init();
 }
 
@@ -51,11 +52,12 @@ PasswordActivator.prototype.init = function() {
   // Add Twik qtip
   $(this.passwordInput).qtip ({
     content: {
-      text: activator.twikEnabled ?
-        activator.tipTextEnabled :
-        activator.tipTextDisabled
+      text: activator.tipText
     },
-    position: { my: 'left top', at: 'right bottom' },
+    position: {
+      my: 'right top',
+      at: 'right bottom',
+    },
     show: {
       event: 'focus mouseenter',
       solo: true
@@ -65,16 +67,26 @@ PasswordActivator.prototype.init = function() {
       event: 'unfocus'
     },
     style: {
-      classes: 'qtip-green'
+      classes: 'qtip-green',
+      tip: {
+        corner: false
+      }
     },
     events: {
-      visible: function (event, api) {
+      render: function (event, api) {
         if (null != activator.twikCheckbox) {
           return;
         }
-        activator.twikCheckbox = $(".twik-checkbox", api.elements.content).get(0);
-        activator.twikCheckbox.addEventListener("click", function () {
+        activator.twikEnableButton = $(".twik-button", api.elements.content).get(0);
+        activator.twikEnableButton.addEventListener("click", function () {
           activator.toggleTwik(true);
+        });
+        if (!activator.twikEnabled) {
+          $(activator.twikEnableButton).addClass("twik-button-disabled");
+        }
+        activator.twikShowButton = $(".twik-show-pass-button", api.elements.content).get(0);
+        activator.twikShowButton.addEventListener("click", function() {
+          activator.toggleShowPassword();
         });
       }
     }
@@ -108,6 +120,19 @@ PasswordActivator.prototype.init = function() {
   }
 }
 
+PasswordActivator.prototype.toggleShowPassword = function(sendMessage) {
+  this.passwordShown = !this.passwordShown;
+  if (this.passwordShown) {
+    $(this.twikShowButton).addClass('twik-hide-pass-button');
+    $(this.twikShowButton).removeClass('twik-show-pass-button');
+    this.passwordInput.get(0).setAttribute('type', 'text');
+  } else {
+    $(this.twikShowButton).addClass('twik-show-pass-button');
+    $(this.twikShowButton).removeClass('twik-hide-pass-button');
+    this.passwordInput.get(0).setAttribute('type', 'password');
+  }
+}
+
 PasswordActivator.prototype.toggleTwik = function(sendMessage) {
   this.twikEnabled = !this.twikEnabled;
   if (this.twikEnabled) {
@@ -131,6 +156,10 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
         null
       );
     }
+
+    if (this.twikEnableButton != null) {
+      $(this.twikEnableButton).removeClass("twik-button-disabled");
+    }
   } else {
     this.passwordInput.get(0).style.setProperty('background', this.inputBackground, 'important');
     $(this.passwordInput).removeClass('twik-enabled');
@@ -144,6 +173,9 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage) {
         },
         null
       );
+    }
+    if (this.twikEnableButton != null) {
+      $(this.twikEnableButton).addClass("twik-button-disabled");
     }
   }
 }
@@ -168,7 +200,7 @@ PasswordActivator.prototype.isEnabled = function() {
 
 PasswordActivator.prototype.updateBackgroundColor = function() {
   if (this.twikEnabled) {
-    $(this.passwordInput).css('background-color', PROFILE_COLORS[settings.color]);
+    this.passwordInput.get(0).style.setProperty('background', PROFILE_COLORS[settings.color], 'important');
   }
 }
 
@@ -186,6 +218,11 @@ function activatePasswordInputs() {
 function updatePasswordInputs() {
   for (i = 0; i < passwordActivators.length; i++) {
     activator = passwordActivators[i];
+    var enabledInProfile = $.inArray(activator.id, settings.enabled_inputs) != -1;
+    if (enabledInProfile != activator.isEnabled()) {
+      activator.toggleTwik();
+    }
+
     if (activator.isEnabled()) {
       activator.updateBackgroundColor();
       activator.updatePassword();
@@ -198,7 +235,7 @@ function addNewNodeListener() {
 }
 
 function removeNewNodeListener() {
-  document.addEventListener('DOMNodeInserted', activateElement, false);
+  document.removeEventListener('DOMNodeInserted', activateElement, false);
 }
 
 function activateElement(event) {

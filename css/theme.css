@@ -99,35 +99,10 @@ a {
 }
 
 .twik-tip {
-  display: table-cell;
-  vertical-align: middle;
 }
 
-.twik-tip label {
-  font-family: 'Roboto', sans-serif !important;
-  color: #ffffff !important;
-  font-weight: 500 !important;
-  font-size: 16px !important;
-  display: block !important;
-  padding-left: 15px !important;
-  text-indent: -15px !important;
-  margin: 0 !important;
-  line-height: 1em !important;
-  width: auto !important;
-  cursor: default !important;
-}
-
-.twik-checkbox {
-  -webkit-appearance: checkbox !important;
-  width: 13px !important;
-  height: 13px !important;
-  padding: 0 !important;
-  margin: 0 5px 0 0 !important;
-  vertical-align: bottom !important;
-  position: relative !important;
-  line-height: 1em !important;
-  float: none !important;
-  display: inline !important;
+.qtip-content {
+  text-align: center;
 }
 
 .twik-enabled {
@@ -143,8 +118,8 @@ a {
 }
 
 .qtip-green {
-  background: #259b24 !important;
-  border-color: #2b802b !important;
+  background: #dcedc8 !important;
+  border-color: transparent !important;
 }
 
 #profile-color-marker {
@@ -165,4 +140,47 @@ a {
   display: table-cell;
   border: none;
   padding: 7px 10px 5px 0px;
+}
+
+.twik-hide-pass-button {
+  background: url("chrome-extension://__MSG_@@extension_id__/images/ic_action_eye_open.png") transparent;
+  background-color: transparent !important;
+  padding: 0 !important;
+  margin-right: 10px !important;
+  border: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  cursor: pointer;
+}
+
+.twik-show-pass-button {
+  background: url("chrome-extension://__MSG_@@extension_id__/images/ic_action_eye_closed.png") transparent;
+  background-color: transparent !important;
+  padding: 0 !important;
+  margin-right: 10px !important;
+  border: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  cursor: pointer;
+}
+
+.twik-button {
+  background: url("chrome-extension://__MSG_@@extension_id__/images/icon-24.png") transparent;
+  background-color: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  cursor: pointer;
+}
+
+.twik-button-disabled {
+  -webkit-filter: grayscale(1);
 }

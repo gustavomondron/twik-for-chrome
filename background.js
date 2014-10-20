@@ -58,8 +58,8 @@ function setProfilesLoadedCallback(callback) {
   }
 }
 
-function selectProfile(url, index) {
-  profileList.setProfileForSite(getSite(url), index, function() {
+function selectProfile(url, key) {
+  profileList.setProfileForSite(getSite(url), key, function() {
     // Update settings in content script
     updateContentScript(url);
   });
@@ -114,8 +114,8 @@ function updateSiteSettings(url, settings, updateContent) {
   }
   
   var site = getSite(url);
-  var profileIndex = getSelectedProfile(url);
-  var profile = profileList.getProfile(profileIndex);
+  var profileKey = getSelectedProfile(url);
+  var profile = profileList.getProfile(profileKey);
   
   // Update enabled inputs if specified
   var enabled_inputs;
@@ -137,7 +137,7 @@ function updateSiteSettings(url, settings, updateContent) {
     password_type: settings.password_type
   }
   
-  profileList.setProfile(profileIndex, profile);
+  profileList.setProfile(profileKey, profile);
   profileList.setToStorage(function() {
     // Update content script if necessary
     if (updateContent) {
