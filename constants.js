@@ -43,3 +43,10 @@ var MESSAGES = {
   ENABLE_INPUT: 4,
   DISABLE_INPUT: 5
 }
+
+var KEY_ENTER = 13;
+var KEY_SHIFT = 16;
+var KEY_CTRL = 17;
+var KEY_C = 67;
+var KEY_K = 75;
+var KEY_S = 83;

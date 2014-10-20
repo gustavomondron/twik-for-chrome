@@ -42,7 +42,10 @@ function PasswordActivator(passwordInput) {
   this.passwordShown = false;
   this.masterKey = '';
   this.inputBackground = $(passwordInput).css('background');
-  this.tipText = '<div class="twik-tip"><button class="twik-show-pass-button"/><button class="twik-button"/></div>';
+  this.tipText = '<div class="twik-tip"><button class="twik-show-pass-button" title="Ctrl-Shift-S"/><button class="twik-button" title="Ctrl-Shift-K"/></div>';
+  this.ctrlKeyPressed = false;
+  this.shiftKeyPressed = false;
+  this.restoreMasterKey = false;
   this.init();
 }
 
@@ -79,7 +82,7 @@ PasswordActivator.prototype.init = function() {
         }
         activator.twikEnableButton = $(".twik-button", api.elements.content).get(0);
         activator.twikEnableButton.addEventListener("click", function () {
-          activator.toggleTwik(true);
+          activator.toggleTwik(true, true);
         });
         if (!activator.twikEnabled) {
           $(activator.twikEnableButton).addClass("twik-button-disabled");
@@ -94,29 +97,85 @@ PasswordActivator.prototype.init = function() {
   
   $(this.passwordInput).focus(function() {
     $(this).val(activator.masterKey);
-  });
-  
-  $(this.passwordInput).keyup(function() {
-    activator.masterKey = $(this).val();
-  });
-  
-  $(this.passwordInput).keydown(function(e) {
-    if (e.which == 13 && activator.twikEnabled) {
-      // Submitting form
-      activator.updatePassword();
-      return true;
-    }
-  })
+  });  
   
   $(this.passwordInput).blur(function() {
     if (activator.twikEnabled) {
       activator.updatePassword();
     }
   });
+
+  $(this.passwordInput).keyup(function(event) {
+    event.stopImmediatePropagation();
+    switch (event.which) {
+      case KEY_CTRL:
+        activator.ctrlKeyPressed = false;
+        break;
+      case KEY_SHIFT:
+        activator.shiftKeyPressed = false;
+        break;
+    }
+
+    var ctrlShiftPressed = activator.ctrlKeyPressed && activator.shiftKeyPressed;
+    if (ctrlShiftPressed) {
+      switch (event.which) {
+        case KEY_K:
+          activator.toggleTwik(true, false);
+          break;
+        case KEY_S:
+          activator.toggleShowPassword();
+          break;
+      }
+    } else if (!activator.restoreMasterKey) {
+      activator.masterKey = $(this).val();
+    }
+
+    return true;
+  });
+
+  $(this.passwordInput).keydown(function(event) {
+    event.stopImmediatePropagation();
+    switch (event.which) {
+      case KEY_CTRL:
+        activator.ctrlKeyPressed = true;
+        break;
+      case KEY_SHIFT:
+        activator.shiftKeyPressed = true;
+        break;
+      case KEY_ENTER:
+        if (activator.twikEnabled) {
+          // Submitting form
+          activator.updatePassword();
+        }
+        break;
+      case KEY_C:
+        if (activator.twikEnabled && activator.passwordShown && activator.ctrlKeyPressed) {
+          if (!activator.twikEnabled) {
+            activator.toggleTwik(true, false);
+          }
+          activator.restoreMasterKey = true;
+          activator.updatePassword();
+          $(this).select();
+        }
+      default:
+        if (!activator.ctrlKeyPressed && !activator.shiftKeyPressed && activator.restoreMasterKey) {
+          $(this).val(activator.masterKey);
+          activator.restoreMasterKey = false;
+        }
+    }
+    return true;
+  });
+
+  $(this.passwordInput).click(function() {
+    if (activator.restoreMasterKey) {
+      $(this).val(activator.masterKey);
+      activator.restoreMasterKey = false;
+    }
+  });
   
   if (this.twikEnabled) {
     this.twikEnabled = false; // Not really enabled at the beginning :-)
-    this.toggleTwik(false);
+    this.toggleTwik(false, true);
   }
 }
 
@@ -133,12 +192,14 @@ PasswordActivator.prototype.toggleShowPassword = function(sendMessage) {
   }
 }
 
-PasswordActivator.prototype.toggleTwik = function(sendMessage) {
+PasswordActivator.prototype.toggleTwik = function(sendMessage, updatePassword) {
   this.twikEnabled = !this.twikEnabled;
   if (this.twikEnabled) {
     this.passwordInput.get(0).style.setProperty('background', PROFILE_COLORS[settings.color], 'important');
     $(this.passwordInput).addClass('twik-enabled');
-    this.currentPassword = this.updatePassword();
+    if (updatePassword) {
+      this.currentPassword = this.updatePassword();
+    }
     // Save the site in the case that this is the first use
     chrome.runtime.sendMessage(
       {
@@ -220,7 +281,7 @@ function updatePasswordInputs() {
     activator = passwordActivators[i];
     var enabledInProfile = $.inArray(activator.id, settings.enabled_inputs) != -1;
     if (enabledInProfile != activator.isEnabled()) {
-      activator.toggleTwik();
+      activator.toggleTwik(false, true);
     }
 
     if (activator.isEnabled()) {
