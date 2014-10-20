@@ -118,6 +118,16 @@
     "message": "License",
     "description": ""
   },
+
+  "acknowledgements": {
+    "message": "Acknowledgments",
+    "description" : ""
+  },
+
+  "acknowledgements_content": {
+    "message": "Italian translation by Claudio Arseni",
+    "description" : ""
+  },
   
   "external_code": {
     "message": "External code",
