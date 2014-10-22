@@ -17,6 +17,8 @@
  * along with Twik.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+var DB_VERSION = 2;
+
 /*
   Provide mechanisms to read and modify all the data used in Twik
 */
@@ -24,6 +26,7 @@ function ProfileList() {
   this.list = {}; // List of profiles
   this.siteProfiles = {}; // Default profile for each website
   this.syncPrivateKeys; // Sync/local storage for private keys
+  this.dbVersion = 1; // Version of database
 }
 
 /*
@@ -37,6 +40,10 @@ ProfileList.prototype.getFromStorage = function(callback) {
       ref.syncPrivateKeys = items.sync_private_keys;
       var profiles = items.profiles;
 
+      if (items.db_version != null) {
+        ref.dbVersion = items.db_version;
+      }
+
       if (siteProfiles != null) {
         ref.siteProfiles = siteProfiles;
       }
@@ -48,15 +55,22 @@ ProfileList.prototype.getFromStorage = function(callback) {
             keys = Object.keys(profiles);
             profileCount = keys.length;
             for (i = 0; i < profileCount; i++) {
-              profiles[keys[i]].private_key = localItems.private_keys[i];
+              // Be careful: database v2 introduces a change in private keys indexes for local storage
+              if (this.dbVersion < 2) {
+                profiles[keys[i]].private_key = localItems.private_keys[i];
+              } else {
+                profiles[keys[i]].private_key = localItems.private_keys[keys[i]];
+              }
             }
           }
+          // Clone profiles object
           ref.list = jQuery.extend({}, profiles);
           if (callback != null) {
             callback();
           }
         });
       } else {
+        // Clone profiles object
         ref.list = jQuery.extend({}, profiles);
         if (callback != null) {
           callback();
@@ -126,10 +140,10 @@ ProfileList.prototype.getNewKey = function() {
   Get the list of private keys
 */
 ProfileList.prototype.getPrivateKeys = function() {
-  privateKeys = [];
+  privateKeys = {};
   var keys = this.getKeys();
   for (i = 0; i < keys.length; i++) {
-    privateKeys[i] = this.getProfile(keys[i]).private_key;
+    privateKeys[keys[i]] = this.getProfile(keys[i]).private_key;
   }
   return privateKeys;
 }
@@ -146,6 +160,7 @@ ProfileList.prototype.setToStorage = function(callback) {
     profilesToStorage = this.list;
   } else {
     keys = this.getKeys();
+    // Clone object
     profilesToStorage = JSON.parse(JSON.stringify(this.list));
     for (var i = 0; i < keys.length; i++) {
       profilesToStorage[keys[i]].private_key = '';
@@ -153,6 +168,7 @@ ProfileList.prototype.setToStorage = function(callback) {
   }
 
   chrome.storage.sync.set({
+    db_version: DB_VERSION,
     profiles: profilesToStorage,
     sync_private_keys: ref.syncPrivateKeys,
     site_profiles: ref.siteProfiles
