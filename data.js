@@ -17,12 +17,18 @@
  * along with Twik.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+  Provide mechanisms to read and modify all the data used in Twik
+*/
 function ProfileList() {
-  this.list = {};
-  this.siteProfiles = {};
-  this.syncPrivateKeys;
+  this.list = {}; // List of profiles
+  this.siteProfiles = {}; // Default profile for each website
+  this.syncPrivateKeys; // Sync/local storage for private keys
 }
 
+/*
+  Load data from storage
+*/
 ProfileList.prototype.getFromStorage = function(callback) {
   var ref = this;
   chrome.storage.sync.get(null,
@@ -34,9 +40,9 @@ ProfileList.prototype.getFromStorage = function(callback) {
       if (siteProfiles != null) {
         ref.siteProfiles = siteProfiles;
       }
-      
+
+      // Get private keys from local storage if they are not synced
       if (!ref.syncPrivateKeys && profiles != null) {
-        // Get keys from local storage
         chrome.storage.local.get('private_keys', function(localItems)  {
           if (localItems.private_keys != null) {
             keys = Object.keys(profiles);
@@ -60,22 +66,44 @@ ProfileList.prototype.getFromStorage = function(callback) {
   );
 }
 
+/*
+  Get the count of profiles
+*/
 ProfileList.prototype.count = function() {
   return this.getKeys().length;
 }
 
+/*
+  Get a profile
+  Args:
+    key: the profile key (identifier)
+*/
 ProfileList.prototype.getProfile = function(key) {
   return this.list[key];
 }
 
+/*
+  Get the list of profile keys (identifiers)
+*/
 ProfileList.prototype.getKeys = function() {
   return Object.keys(this.list);
 }
 
+/*
+  Update a profile or add a new one
+  Args:
+    key: the profile key
+    profile: object containing the profile data
+*/
 ProfileList.prototype.setProfile = function(key, profile) {
   this.list[key] = profile;
 }
 
+/*
+  Remove a profile
+  Args:
+    key: the profile key
+*/
 ProfileList.prototype.removeProfile = function(key) {
   if ($.inArray(key, this.getKeys()) != -1) {
     delete this.list[key];
@@ -83,7 +111,7 @@ ProfileList.prototype.removeProfile = function(key) {
 }
 
 /*
-  Get a new profile key (the key is an unique index)
+  Get a new profile key (the key is a unique index)
 */
 ProfileList.prototype.getNewKey = function() {
   var keys = this.getKeys();
@@ -94,6 +122,9 @@ ProfileList.prototype.getNewKey = function() {
   return newKey;
 }
 
+/*
+  Get the list of private keys
+*/
 ProfileList.prototype.getPrivateKeys = function() {
   privateKeys = [];
   var keys = this.getKeys();
@@ -103,6 +134,11 @@ ProfileList.prototype.getPrivateKeys = function() {
   return privateKeys;
 }
 
+/*
+  Saves the data to storage
+  Args:
+    callback: function called when the process is completed
+*/
 ProfileList.prototype.setToStorage = function(callback) {
   var ref = this;
   var profilesToStorage;
@@ -131,6 +167,11 @@ ProfileList.prototype.setToStorage = function(callback) {
   });
 }
 
+/*
+  Create the default profile and saves it to storage
+  Args:
+    callback: function called when the process is completed
+*/
 ProfileList.prototype.createDefaultProfile = function(callback) {
   var profile = {
     name: chrome.i18n.getMessage('default'),
@@ -163,6 +204,13 @@ ProfileList.prototype.createDefaultProfile = function(callback) {
   );
 }
 
+/*
+  Set the profile which is selected by default for a website in particular
+  Args:
+    site: website domain
+    key: profile key
+    callback: function called when the process is completed
+*/
 ProfileList.prototype.setProfileForSite = function(site, key, callback) {
   var ref = this;
   if ($.inArray(key, this.getKeys()) != -1) {
@@ -178,6 +226,11 @@ ProfileList.prototype.setProfileForSite = function(site, key, callback) {
   }
 }
 
+/*
+  Get the profile which should be selected by default for a website in particular
+  Args:
+    site: website domain
+*/
 ProfileList.prototype.getProfileForSite = function(site) {
   var keys = this.getKeys();
   var profileKey = keys[0];
@@ -194,6 +247,9 @@ ProfileList.prototype.getProfileForSite = function(site) {
   return profileKey;
 }
 
+/*
+  Get whether private keys are synced
+*/
 ProfileList.prototype.getSyncPrivateKeys = function() {
   return this.syncPrivateKeys;
 }
