@@ -92,6 +92,7 @@ function getSiteSettings(url) {
     color: profile.color,
     private_key: profile.private_key
   };
+  
   if (profile.sites[data.site] != null) {
     data['tag'] = profile.sites[data.site].tag;
     data['password_length'] = profile.tags[data.tag].password_length;
@@ -126,18 +127,10 @@ function updateSiteSettings(url, settings, updateContent) {
   } else {
     enabled_inputs = [];
   }
-  
-  profile.sites[site] = {
-    tag: settings.tag,
-    enabled_inputs: enabled_inputs
-  };
-  
-  profile.tags[settings.tag] = {
-    password_length: settings.password_length,
-    password_type: settings.password_type
-  }
-  
-  profileList.setProfile(profileKey, profile);
+
+  profileList.setSiteSettings(profileKey, site, settings.tag, enabled_inputs);
+  profileList.setTagSettings(profileKey, settings.tag, settings.password_length, settings.password_type);
+
   profileList.setToStorage(function() {
     // Update content script if necessary
     if (updateContent) {

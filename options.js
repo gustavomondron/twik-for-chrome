@@ -29,6 +29,20 @@ window.onload = function() {
   init();
 }
 
+function removeProfile(key) {
+  bgPage.profileList.removeProfile(key, function() {
+    var newSelectedKey;
+    var keys = bgPage.profileList.getKeys();
+    var index = $.inArray(key, keys);
+    if (index > 0) {
+      newSelectedKey = keys[index - 1];
+    } else {
+      newSelectedKey = keys[0];
+    }
+    populateProfileList(newSelectedKey);
+  });
+}
+
 function setupUI() {
   colorPalette.init();
   setSyncPrivateKeys();
@@ -47,16 +61,7 @@ function setupUI() {
   });
   
   $('#button_remove_profile').click(function() {
-    var keys = bgPage.profileList.getKeys();
-    var index = $.inArray($('#profile').val(), keys);
-    var newSelectedKey;
     removeProfile($('#profile').val());
-    if (index > 0) {
-      newSelectedKey = keys[index - 1];
-    } else {
-      newSelectedKey = keys[0];
-    }
-    saveChanges(true, newSelectedKey);
   });
   
   $('#sync_private_keys').change(function() {
@@ -137,10 +142,6 @@ function addProfile() {
     });
     
     saveChanges(true, profileCount);
-}
-
-function removeProfile(key) {
-  bgPage.profileList.removeProfile(key);
 }
 
 function saveChanges(updateList, index) {
