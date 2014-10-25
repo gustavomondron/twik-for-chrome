@@ -38,6 +38,14 @@ ProfileList.prototype.getFromStorage = function(callback) {
   var ref = this;
   chrome.storage.sync.get(null,
     function(items) {
+      if (Object.keys(items).length == 0) {
+        // Empty database (probably, first run). Nothing to load from storage.
+        if (callback != null) {
+          callback();
+        }
+        return;
+      }
+
       ref.syncPrivateKeys = items.sync_private_keys;
       var profiles = items.profiles;
 
@@ -349,38 +357,21 @@ ProfileList.prototype.setToStorage = function(callback) {
     callback: function called when the process is completed
 */
 ProfileList.prototype.createDefaultProfile = function(callback) {
-  var profile = {
+  this.list[this.getNewKey()] = {
     name: chrome.i18n.getMessage('default'),
     private_key: generatePrivateKey(),
     password_type: PASSWORD_TYPES.ALPHANUMERIC_AND_SPECIAL_CHARS,
     password_length: 12,
-    color: 1
+    color: 1,
+    sites: {},
+    tags: {}
   };
-
-  // Add attributes for this profile list (not for storage)  
-  var thisProfile = JSON.parse(JSON.stringify(profile));
-  thisProfile.sites = {};
-  thisProfile.tags = {};
-  this.list[this.getNewKey()] = thisProfile;
 
   // Default: do not sync private keys
   this.syncPrivateKeys = false;
 
-  var ref = this;  
-  chrome.storage.sync.set({
-     profiles: [ profile ],
-     sync_private_keys: false
-    }, function() {
-      chrome.storage.local.set(
-        { private_keys: ref.getPrivateKeys() },
-        function() {
-          if (callback != null) {
-            callback();
-          }
-        }
-      );
-    }
-  );
+  // Save to storage
+  this.setToStorage(callback);
 }
 
 /*
