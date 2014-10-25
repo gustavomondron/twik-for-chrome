@@ -40,13 +40,10 @@ function onProfilesLoaded() {
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
   if (namespace == "sync") {
-    for (key in changes) {
-      if (key == "profiles" || key == "site_profiles") {
-        profileList.getFromStorage(null);
-      } else if (key == "sync_private_keys") {
-        profileList.syncPrivateKeys = changes[key].newValue;
-      }
+    if (changes.syncPrivateKeys != null) {
+      profileList.syncPrivateKeys = changes[key].newValue;
     }
+    profileList.getFromStorage(null);
   }
 });
 
