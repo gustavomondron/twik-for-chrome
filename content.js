@@ -131,11 +131,11 @@ PasswordActivator.prototype.init = function() {
           break;
       }
     } else if (!activator.restoreMasterKey) {
-      activator.masterKey = $(this).val();
+      activator.masterKey = this.value;
     }
 
     return true;
-  });
+  };
 
   $(this.passwordInput).keydown(function(event) {
     event.stopImmediatePropagation();
