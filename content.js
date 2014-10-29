@@ -98,18 +98,18 @@ PasswordActivator.prototype.init = function() {
   $(this.passwordInput).focus(function() {
     this.setAttribute('type', 'password');
     $(this).val(activator.masterKey);
-  });  
-  
-  $(this.passwordInput).blur(function() {
+  });
+
+  this.passwordInput[0].onblur = function() {
     if (activator.twikEnabled) {
       activator.updatePassword();
       if (activator.passwordShown) {
         this.setAttribute('type', 'text');
       }
     }
-  });
+  };
 
-  $(this.passwordInput).keyup(function(event) {
+  this.passwordInput[0].onkeyup = function(event) {
     event.stopImmediatePropagation();
     switch (event.which) {
       case KEY_CTRL:
@@ -169,13 +169,13 @@ PasswordActivator.prototype.init = function() {
     return true;
   });
 
-  $(this.passwordInput).click(function() {
+  this.passwordInput[0].onclick = function() {
     if (activator.restoreMasterKey) {
       this.setAttribute('type', 'password');
       $(this).val(activator.masterKey);
       activator.restoreMasterKey = false;
     }
-  });
+  };
   
   if (this.twikEnabled) {
     this.twikEnabled = false; // Not really enabled at the beginning :-)
