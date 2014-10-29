@@ -89,23 +89,27 @@ PasswordActivator.prototype.init = function() {
         }
         activator.twikShowButton = $(".twik-show-pass-button", api.elements.content).get(0);
         activator.twikShowButton.addEventListener("click", function() {
-          activator.toggleShowPassword();
+          activator.toggleShowPassword(true);
         });
       }
     }
   });
   
   $(this.passwordInput).focus(function() {
+    this.setAttribute('type', 'password');
     $(this).val(activator.masterKey);
-  });  
-  
-  $(this.passwordInput).blur(function() {
-    if (activator.twikEnabled) {
-      activator.updatePassword();
-    }
   });
 
-  $(this.passwordInput).keyup(function(event) {
+  this.passwordInput[0].onblur = function() {
+    if (activator.twikEnabled) {
+      activator.updatePassword();
+      if (activator.passwordShown) {
+        this.setAttribute('type', 'text');
+      }
+    }
+  };
+
+  this.passwordInput[0].onkeyup = function(event) {
     event.stopImmediatePropagation();
     switch (event.which) {
       case KEY_CTRL:
@@ -123,15 +127,15 @@ PasswordActivator.prototype.init = function() {
           activator.toggleTwik(true, false);
           break;
         case KEY_S:
-          activator.toggleShowPassword();
+          activator.toggleShowPassword(false);
           break;
       }
     } else if (!activator.restoreMasterKey) {
-      activator.masterKey = $(this).val();
+      activator.masterKey = this.value;
     }
 
     return true;
-  });
+  };
 
   $(this.passwordInput).keydown(function(event) {
     event.stopImmediatePropagation();
@@ -150,15 +154,14 @@ PasswordActivator.prototype.init = function() {
         break;
       case KEY_C:
         if (activator.twikEnabled && activator.passwordShown && activator.ctrlKeyPressed) {
-          if (!activator.twikEnabled) {
-            activator.toggleTwik(true, false);
-          }
           activator.restoreMasterKey = true;
           activator.updatePassword();
+          this.setAttribute('type', 'text');
           $(this).select();
         }
       default:
         if (!activator.ctrlKeyPressed && !activator.shiftKeyPressed && activator.restoreMasterKey) {
+          this.setAttribute('type', 'password');
           $(this).val(activator.masterKey);
           activator.restoreMasterKey = false;
         }
@@ -166,12 +169,13 @@ PasswordActivator.prototype.init = function() {
     return true;
   });
 
-  $(this.passwordInput).click(function() {
+  this.passwordInput[0].onclick = function() {
     if (activator.restoreMasterKey) {
+      this.setAttribute('type', 'password');
       $(this).val(activator.masterKey);
       activator.restoreMasterKey = false;
     }
-  });
+  };
   
   if (this.twikEnabled) {
     this.twikEnabled = false; // Not really enabled at the beginning :-)
@@ -179,27 +183,39 @@ PasswordActivator.prototype.init = function() {
   }
 }
 
-PasswordActivator.prototype.toggleShowPassword = function(sendMessage) {
+PasswordActivator.prototype.toggleShowPassword = function(updateInput) {
   this.passwordShown = !this.passwordShown;
   if (this.passwordShown) {
     $(this.twikShowButton).addClass('twik-hide-pass-button');
     $(this.twikShowButton).removeClass('twik-show-pass-button');
-    this.passwordInput.get(0).setAttribute('type', 'text');
+    if (this.twikEnabled && updateInput) {
+      this.passwordInput.get(0).setAttribute('type', 'text');
+    }
   } else {
     $(this.twikShowButton).addClass('twik-show-pass-button');
     $(this.twikShowButton).removeClass('twik-hide-pass-button');
-    this.passwordInput.get(0).setAttribute('type', 'password');
+    if (updateInput) {
+      this.passwordInput.get(0).setAttribute('type', 'password');
+    }
   }
 }
 
 PasswordActivator.prototype.toggleTwik = function(sendMessage, updatePassword) {
   this.twikEnabled = !this.twikEnabled;
   if (this.twikEnabled) {
+    // Set profile color as input background color and add Twik CSS class
     this.passwordInput.get(0).style.setProperty('background', PROFILE_COLORS[settings.color], 'important');
     $(this.passwordInput).addClass('twik-enabled');
+
+    // Update website pasword
     if (updatePassword) {
       this.currentPassword = this.updatePassword();
+      // If "show password" is activated, show the generated password
+      if (this.passwordShown) {
+        this.passwordInput.get(0).setAttribute('type', 'text');
+      }
     }
+
     // Save the site in the case that this is the first use
     chrome.runtime.sendMessage(
       {
@@ -218,13 +234,24 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage, updatePassword) {
       );
     }
 
+    // Update Twik button
     if (this.twikEnableButton != null) {
       $(this.twikEnableButton).removeClass("twik-button-disabled");
     }
   } else {
+    // Restore background color and remove Twik CSS class
     this.passwordInput.get(0).style.setProperty('background', this.inputBackground, 'important');
     $(this.passwordInput).removeClass('twik-enabled');
+
+    // Make sure that password is not shown
+    if (this.passwordShown) {
+      this.toggleShowPassword(true);
+    }
+    
+    // Restore master key
     $(this.passwordInput).val(this.masterKey);
+
+    // Update website settings
     if (sendMessage) {
       chrome.runtime.sendMessage(
         {
@@ -235,6 +262,8 @@ PasswordActivator.prototype.toggleTwik = function(sendMessage, updatePassword) {
         null
       );
     }
+
+    // Update Twik button
     if (this.twikEnableButton != null) {
       $(this.twikEnableButton).addClass("twik-button-disabled");
     }
@@ -305,9 +334,16 @@ function activateElement(event) {
   
   // Create the new activator in the case that it is a password input
   $('input[type=password]', event.srcElement).each(function() {
-    activator = new PasswordActivator($(this));
-    passwordActivators[passwordActivators.length] = activator;
-    activator.init();
+    // Check whether we already have a PasswordActivator for this input
+    found = false;
+    for (i = 0; i < passwordActivators.length; i++) {
+      id = passwordActivators[i].passwordInput[0].id;
+      if (id.length == 0 || id != this.id) {
+        activator = new PasswordActivator($(this));
+        passwordActivators[passwordActivators.length] = activator;
+        activator.init();
+      }
+    }
   });
   
   // Enable the new DOM element listener
