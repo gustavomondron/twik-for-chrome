@@ -334,9 +334,16 @@ function activateElement(event) {
   
   // Create the new activator in the case that it is a password input
   $('input[type=password]', event.srcElement).each(function() {
-    activator = new PasswordActivator($(this));
-    passwordActivators[passwordActivators.length] = activator;
-    activator.init();
+    // Check whether we already have a PasswordActivator for this input
+    found = false;
+    for (i = 0; i < passwordActivators.length; i++) {
+      id = passwordActivators[i].passwordInput[0].id;
+      if (id.length == 0 || id != this.id) {
+        activator = new PasswordActivator($(this));
+        passwordActivators[passwordActivators.length] = activator;
+        activator.init();
+      }
+    }
   });
   
   // Enable the new DOM element listener
