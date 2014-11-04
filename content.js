@@ -338,11 +338,12 @@ function activateElement(event) {
     found = false;
     for (i = 0; i < passwordActivators.length; i++) {
       id = passwordActivators[i].passwordInput[0].id;
-      if (id.length == 0 || id != this.id) {
-        activator = new PasswordActivator($(this));
-        passwordActivators[passwordActivators.length] = activator;
-        activator.init();
-      }
+      found = id.length > 0 && id == this.id;
+    }
+    if (!found) {
+      activator = new PasswordActivator($(this));
+      passwordActivators[passwordActivators.length] = activator;
+      activator.init();
     }
   });
   
